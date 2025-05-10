@@ -1,25 +1,40 @@
-function Square({ value }) {
-  return <button className="square">{value}</button>;
-}
+// src/App.js
+import React, { useState } from 'react';
+import HomePage from './components/HomePage';
+import AboutPage from './components/AboutPage';
 
-export default function Board() {
+function App() {
+  const [currentPage, setCurrentPage] = useState('home'); // Initial state is 'home'
+
+  const handleGoToAbout = () => {
+    setCurrentPage('about');
+  };
+
+  const handleGoToHome = () => {
+    setCurrentPage('home');
+  };
+
+  let contentToDisplay;
+
+  if (currentPage === 'home') {
+    contentToDisplay = <HomePage />;
+  } else if (currentPage === 'about') {
+    contentToDisplay = <AboutPage />;
+  } else {
+    contentToDisplay = <HomePage />; // Default fallback
+  }
+
   return (
-    <>
-      <div className="board-row">
-        <Square value="1" />
-        <Square value="2" />
-        <Square value="3" />
-      </div>
-      <div className="board-row">
-        <Square value="4" />
-        <Square value="5" />
-        <Square value="6" />
-      </div>
-      <div className="board-row">
-        <Square value="7" />
-        <Square value="8" />
-        <Square value="9" />
-      </div>
-    </>
+    <div>
+      <h1>My Single-Page App (Simulated Navigation)</h1>
+      <button onClick={handleGoToHome}>Go to Home</button>
+      <button onClick={handleGoToAbout}>Go to About</button>
+
+      <hr />
+
+      {contentToDisplay}
+    </div>
   );
 }
+
+export default App;
