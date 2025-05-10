@@ -1,6 +1,6 @@
 import React from 'react';
 
-function HomePage() {
+export default function HomePage() {
   return (
     <div>
       <p>Welcome to hex!</p> 
@@ -9,5 +9,3 @@ function HomePage() {
     </div>
   );
 }
-
-export default HomePage;
