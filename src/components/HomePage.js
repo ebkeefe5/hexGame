@@ -1,11 +1,11 @@
-// src/components/HomePage.js
 import React from 'react';
 
 function HomePage() {
   return (
     <div>
-      <h2>Home Page</h2>
-      <p>Welcome to the home section!</p>
+      <p>Welcome to hex!</p> 
+      <p>This is an alternating turn game. Red has the first move, but may not move in the center on the first turn. Red wins by connecting the bottom and top of the board with an unbroken chain of red hexagons. Blue wins by connecting the left and right side of the board with an unbroken chain of blue hexagons.</p> 
+      <p>The pictures below show an example of a game where red and blue have each won, respectively.</p>
     </div>
   );
 }
