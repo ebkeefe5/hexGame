@@ -10,10 +10,6 @@ function App() {
     setCurrentPage('onePlayer');
   };
 
-  const handleGoToHome = () => {
-    setCurrentPage('home');
-  };
-
   let contentToDisplay;
 
   if (currentPage === 'home') {
@@ -25,16 +21,17 @@ function App() {
   }
 
   return (
-    <div>
-      <h1>Hex</h1>
-      <button onClick={handleGoToHome}>Home</button>
-      <button onClick={handleGoToOnePlayer}>One player</button> 
-      <button onClick={handleGoToOnePlayer}>Two player</button>
-      <button onClick={handleGoToOnePlayer}>Puzzle</button>
-      <hr />
+    <body style={{ backgroundColor: '#D3D3D3' }} >
+      <div>
+        <h1>Hex</h1>
+        <button onClick={handleGoToOnePlayer}>One player</button> 
+        <button onClick={handleGoToOnePlayer}>Two player</button>
+        <button onClick={handleGoToOnePlayer}>Puzzle</button>
+        <hr />
 
-      {contentToDisplay}
-    </div>
+        {contentToDisplay}
+      </div>
+    </body>
   );
 }
 
