@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import HomePage from './components/HomePage';
 import OnePlayerPage from './components/OnePlayerPage';
+import TwoPlayerPage from './components/TwoPlayerPage';
+import PuzzlePage from './components/PuzzlePage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home'); // Initial state is 'home'
@@ -10,13 +12,25 @@ function App() {
     setCurrentPage('onePlayer');
   };
 
+  const handleGoToTwoPlayer = () => {
+    setCurrentPage('twoPlayer');
+  };
+
+  const handleGoToPuzzle = () => {
+    setCurrentPage('puzzle');
+  };
+
   let contentToDisplay;
 
   if (currentPage === 'home') {
     contentToDisplay = <HomePage />;
   } else if (currentPage === 'onePlayer') {
     contentToDisplay = <OnePlayerPage />;
-  } else {
+  } else if (currentPage === 'twoPlayer') {
+    contentToDisplay = <TwoPlayerPage />;
+  }else if (currentPage === 'puzzle') {
+    contentToDisplay = <PuzzlePage />;
+  }else {
     contentToDisplay = <HomePage />; // Default fallback
   }
 
@@ -24,12 +38,11 @@ function App() {
     <body style={{ backgroundColor: '#D3D3D3' }} >
       <div>
         <h1>Hex</h1>
-        <button onClick={handleGoToOnePlayer}>One player</button> 
-        <button onClick={handleGoToOnePlayer}>Two player</button>
-        <button onClick={handleGoToOnePlayer}>Puzzle</button>
+        <button onClick={handleGoToOnePlayer} style={{ marginRight: '15px' }}>One player</button> 
+        <button onClick={handleGoToTwoPlayer} style={{ marginRight: '15px' }}>Two player</button>
+        <button onClick={handleGoToPuzzle}>Puzzle</button>
         <hr />
-
-        {contentToDisplay}
+          {contentToDisplay}
       </div>
     </body>
   );
