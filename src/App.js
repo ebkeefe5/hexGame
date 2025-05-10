@@ -1,13 +1,13 @@
 // src/App.js
 import React, { useState } from 'react';
 import HomePage from './components/HomePage';
-import AboutPage from './components/AboutPage';
+import OnePlayerPage from './components/OnePlayerPage';
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home'); // Initial state is 'home'
 
-  const handleGoToAbout = () => {
-    setCurrentPage('about');
+  const handleGoToOnePlayer = () => {
+    setCurrentPage('onePlayer');
   };
 
   const handleGoToHome = () => {
@@ -18,18 +18,19 @@ function App() {
 
   if (currentPage === 'home') {
     contentToDisplay = <HomePage />;
-  } else if (currentPage === 'about') {
-    contentToDisplay = <AboutPage />;
+  } else if (currentPage === 'onePlayer') {
+    contentToDisplay = <OnePlayerPage />;
   } else {
     contentToDisplay = <HomePage />; // Default fallback
   }
 
   return (
     <div>
-      <h1>My Single-Page App (Simulated Navigation)</h1>
-      <button onClick={handleGoToHome}>Go to Home</button>
-      <button onClick={handleGoToAbout}>Go to About</button>
-
+      <h1>Hex</h1>
+      <button onClick={handleGoToHome}>Home</button>
+      <button onClick={handleGoToOnePlayer}>One player</button> 
+      <button onClick={handleGoToOnePlayer}>Two player</button>
+      <button onClick={handleGoToOnePlayer}>Puzzle</button>
       <hr />
 
       {contentToDisplay}
