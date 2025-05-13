@@ -1,16 +1,6 @@
 import React from 'react';
 import { BOARD_DIMENSION, HEXAGON_EDGE_LENGTH, TOP_LEFT_HEXAGON_CENTER_X, TOP_LEFT_HEXAGON_CENTER_y, HEXAGON_WIDTH, BOARD_WIDTH, BOARD_HEIGHT } from '../constants.js';
 
-//task 1 - display a hexagon button 
-//task 2 - hexagon button changes colors when clicked
-//task 3 - display a board with a bunch of hexagon buttons, the middle button starts out gray
-//task 4 - hexagons in board change colors when clicked, rotating by player
-//task 5 - add a menu on the left
-    //choose the color to play as
-    //select a difficulty
-    //restart the game
-    //display the current turn
-
 export default function TwoPlayerPage() { 
 
     const handleHexagonClick = () => {
@@ -21,6 +11,7 @@ export default function TwoPlayerPage() {
     return (
     <div className = "leftIndent">
         <svg viewBox="0 0 200 200">
+            {createTopBorder()}
             {createHexButton(0, 0, handleHexagonClick)}
             {createHexButton(0, 1, handleHexagonClick)}
             {createHexButton(0, 2, handleHexagonClick)}
@@ -48,6 +39,24 @@ export default function TwoPlayerPage() {
             {createHexButton(4, 4, handleHexagonClick)}
         </svg>
     </div>
+    );
+}
+
+function createTopBorder()
+{
+    var x1 = TOP_LEFT_HEXAGON_CENTER_X - Math.sqrt(3)*HEXAGON_EDGE_LENGTH/2;
+    var x2 = TOP_LEFT_HEXAGON_CENTER_X - Math.sqrt(3)*HEXAGON_EDGE_LENGTH;
+    var x3 = TOP_LEFT_HEXAGON_CENTER_X + Math.sqrt(3)* (BOARD_DIMENSION - 0.83) * HEXAGON_EDGE_LENGTH;
+    var x4 = TOP_LEFT_HEXAGON_CENTER_X + Math.sqrt(3)* (BOARD_DIMENSION - 0.25) * HEXAGON_EDGE_LENGTH;
+
+    var y1 = TOP_LEFT_HEXAGON_CENTER_y - 1/2 * HEXAGON_EDGE_LENGTH;
+    var y2 = TOP_LEFT_HEXAGON_CENTER_y - HEXAGON_EDGE_LENGTH;
+    var y3 = TOP_LEFT_HEXAGON_CENTER_y - 3/2 * HEXAGON_EDGE_LENGTH;
+
+    const points = `${x1},${y1} ${x2},${y2} ${x1},${y3} ${x4},${y3} ${x3},${y1}`;
+
+    return (
+        <polygon points={points} fill={'black'} />
     );
 }
 
