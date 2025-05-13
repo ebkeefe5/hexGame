@@ -35,16 +35,14 @@ function App() {
   }
 
   return (
-    <body style={{ backgroundColor: '#D3D3D3' }} >
-      <div>
-        <h1>Hex</h1>
-        <button onClick={handleGoToOnePlayer} style={{ marginRight: '15px' }}>One player</button> 
-        <button onClick={handleGoToTwoPlayer} style={{ marginRight: '15px' }}>Two player</button>
-        <button onClick={handleGoToPuzzle}>Puzzle</button>
-        <hr />
-          {contentToDisplay}
-      </div>
-    </body>
+    <div>
+      <h1>Hex</h1>
+      <button onClick={handleGoToOnePlayer} style={{ marginRight: '15px' }}>One player</button> 
+      <button onClick={handleGoToTwoPlayer} style={{ marginRight: '15px' }}>Two player</button>
+      <button onClick={handleGoToPuzzle}>Puzzle</button>
+      <hr />
+        {contentToDisplay}
+    </div>
   );
 }
 

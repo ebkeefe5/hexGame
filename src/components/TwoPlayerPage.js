@@ -6,11 +6,18 @@ import { COLORS } from '../constants.js';
 
 export default function TwoPlayerPage() {
     const [hexagons, setHexagons] = useState(Array(BOARD_DIMENSION*BOARD_DIMENSION).fill(0)); 
+    const [redIsNext, setRedIsNext] = useState(true);
 
     const handleHexagonClick = (i, j) => {
-        console.log("Hexagon clicked on the TwoPlayerPage!"); 
+        if (hexagons[i * BOARD_DIMENSION + j] != 0)
+            return;
+        
         const nextHexagons = hexagons.slice();
-        nextHexagons[i * BOARD_DIMENSION + j] = 1;
+        if (redIsNext)
+            nextHexagons[i * BOARD_DIMENSION + j] = 1;
+        else 
+            nextHexagons[i * BOARD_DIMENSION + j] = 2;
+        setRedIsNext(!redIsNext);
         setHexagons(nextHexagons); 
     };
 
@@ -21,6 +28,8 @@ export default function TwoPlayerPage() {
                 var fill = COLORS[0];
                 if (hexagons[i * BOARD_DIMENSION + j] == 1)
                     fill = COLORS[1];
+                else if (hexagons[i * BOARD_DIMENSION + j] == 2)
+                    fill = COLORS[2];
                 hexagonComponents.push(<HexButton 
                     key={`hex-${i}-${j}`}
                     row = {i}
