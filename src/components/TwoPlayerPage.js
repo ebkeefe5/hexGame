@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import HexButton from './HexButton';
-import { BOARD_DIMENSION } from '../constants.js';
-import { COLORS } from '../constants.js';
-import { NOT_ALLOWED_COLOR } from '../constants.js';
+import  border  from './border/borders.js';
+import { BOARD_DIMENSION } from '../constants/board.js';
+import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
 
 export default function TwoPlayerPage() {
     const CENTER_INDEX = Math.floor((BOARD_DIMENSION * BOARD_DIMENSION)/2);
@@ -18,7 +18,6 @@ export default function TwoPlayerPage() {
         if (hexagons[i * BOARD_DIMENSION + j] != 0)
             return
         
-
         const nextHexagons = hexagons.slice();
         if (redIsNext)
             nextHexagons[i * BOARD_DIMENSION + j] = 1;
@@ -60,6 +59,10 @@ export default function TwoPlayerPage() {
     return (
         <div className = "leftIndent">
             <svg viewBox="0 0 200 200">
+                 {border({borderNumber:0}) }
+                 {border({borderNumber:1}) }
+                 {border({borderNumber:2}) }
+                 {border({borderNumber:3}) }
                  {renderHexagons()}       
             </svg>
         </div>

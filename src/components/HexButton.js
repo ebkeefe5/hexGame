@@ -1,5 +1,5 @@
 import React from 'react';
-import { HEXAGON_EDGE_LENGTH, TOP_LEFT_HEXAGON_CENTER_X, TOP_LEFT_HEXAGON_CENTER_y } from '../constants.js';
+import { HEXAGON_EDGE_LENGTH, TOP_LEFT_HEXAGON_CENTER_X, TOP_LEFT_HEXAGON_CENTER_Y } from '../constants/board.js';
 
 export default class HexButton extends React.Component
 {
@@ -7,7 +7,7 @@ export default class HexButton extends React.Component
         const { row, col, fill, onClick} = this.props;
 
         var cx = TOP_LEFT_HEXAGON_CENTER_X + col * Math.sqrt(3) * HEXAGON_EDGE_LENGTH + Math.sqrt(3)*HEXAGON_EDGE_LENGTH/2*row;
-        var cy = TOP_LEFT_HEXAGON_CENTER_y + row * 3/2 * HEXAGON_EDGE_LENGTH;
+        var cy = TOP_LEFT_HEXAGON_CENTER_Y + row * 3/2 * HEXAGON_EDGE_LENGTH;
 
         var x1 = cx - Math.sqrt(3)*HEXAGON_EDGE_LENGTH/2;
         var x2 = cx;
@@ -34,7 +34,7 @@ export default class HexButton extends React.Component
         const polygonStyle = {
             fill: fill,
             stroke: 'black',
-            strokeWidth: 0.5,
+            strokeWidth: 0.1,
         };
 
         return (   
