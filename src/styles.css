@@ -3,7 +3,6 @@ body {
 }
 
 .rotating-heading-simple {
-  margin-top: 0;
   font-size: 35px;
 }
 
@@ -17,8 +16,6 @@ body {
 }
 
 h1 {
-  margin-top: 0;
-  font-size: 35px;
   color: #E42217;
 }
 
@@ -28,12 +25,27 @@ h2 {
 }
 
 .instructions {
-  width:30%;
+  width:40%;
   text-align: left;
 }
 
-.leftIndent{
-  padding-left: 8%;
+.page-container {
+  display: grid;
+  grid-template-columns: 8% 1fr; /* First column is 8% of the container width, the rest is 1fr */
+}
+
+.left-menu {
+  display: flex;
+  flex-direction: column; /* Arrange items vertically */
+  gap: 1%;
+}
+
+.game-page {
+  padding-left: 2%;
+}
+
+.leftIndent {
+  padding-left: 10%;
 }
 
 .image {

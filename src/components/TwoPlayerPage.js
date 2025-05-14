@@ -57,14 +57,12 @@ export default function TwoPlayerPage() {
     }
 
     return (
-        <div className = "leftIndent">
-            <svg viewBox="0 0 200 200">
-                 {border({borderNumber:0}) }
-                 {border({borderNumber:1}) }
-                 {border({borderNumber:2}) }
-                 {border({borderNumber:3}) }
-                 {renderHexagons()}       
-            </svg>
-        </div>
+        <svg viewBox="0 0 200 200">
+                {border({borderNumber:0}) }
+                {border({borderNumber:1}) }
+                {border({borderNumber:2}) }
+                {border({borderNumber:3}) }
+                {renderHexagons()}       
+        </svg>
     );
 }

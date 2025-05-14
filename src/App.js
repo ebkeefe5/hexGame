@@ -37,7 +37,14 @@ function App() {
   } else if (currentPage === 'onePlayer') {
     contentToDisplay = <OnePlayerPage />;
   } else if (currentPage === 'twoPlayer') {
-    contentToDisplay = <TwoPlayerPage />;
+    contentToDisplay = <div className="page-container">
+      <div className="left-menu">
+         <h5>board size: 5</h5>
+      </div>
+      <div className="game-page">
+        <TwoPlayerPage /> 
+      </div>
+    </div>;
   }else if (currentPage === 'puzzle') {
     contentToDisplay = <PuzzlePage />;
   }else {
@@ -47,8 +54,8 @@ function App() {
   return (
     <div>
       <RotatingHeadingSimple text="HEX" />
-      <button onClick={handleGoToOnePlayer} style={{ marginRight: '15px' }}>One player</button> 
-      <button onClick={handleGoToTwoPlayer} style={{ marginRight: '15px' }}>Two player</button>
+      <button onClick={handleGoToOnePlayer} style={{ marginRight: '2%', marginLeft:'1%'}}>One player</button> 
+      <button onClick={handleGoToTwoPlayer} style={{ marginRight: '2%' }}>Two player</button>
       <button onClick={handleGoToPuzzle}>Puzzle</button>
       <hr />
         {contentToDisplay}
