@@ -5,6 +5,16 @@ import OnePlayerPage from './components/OnePlayerPage';
 import TwoPlayerPage from './components/TwoPlayerPage';
 import PuzzlePage from './components/PuzzlePage';
 
+function RotatingHeadingSimple({ text }) {
+  return (
+    <h1 className="rotating-heading-simple">
+      {text.split('').map((letter, index) => (
+        <span key={index}>{letter}</span>
+      ))}
+    </h1>
+  );
+}
+
 function App() {
   const [currentPage, setCurrentPage] = useState('home'); // Initial state is 'home'
 
@@ -36,7 +46,7 @@ function App() {
 
   return (
     <div>
-      <h1>Hex</h1>
+      <RotatingHeadingSimple text="HEX" />
       <button onClick={handleGoToOnePlayer} style={{ marginRight: '15px' }}>One player</button> 
       <button onClick={handleGoToTwoPlayer} style={{ marginRight: '15px' }}>Two player</button>
       <button onClick={handleGoToPuzzle}>Puzzle</button>

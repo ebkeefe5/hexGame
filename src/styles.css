@@ -2,9 +2,24 @@ body {
   background-color: #D3D3D3;
 }
 
+.rotating-heading-simple {
+  margin-top: 0;
+  font-size: 35px;
+}
+
+.rotating-heading-simple span {
+  color: #7690ac; 
+  transition: color 1s infinite alternate; 
+}
+
+.rotating-heading-simple span:nth-child(odd) {
+  color: #E42217; 
+}
+
 h1 {
   margin-top: 0;
   font-size: 35px;
+  color: #E42217;
 }
 
 h2 {
