@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function PuzzlePage() {
   return (
-    <div class ="leftIndent">
+    <div>
       <p>puzzle page</p>
     </div>
   );

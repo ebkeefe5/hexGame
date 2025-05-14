@@ -45,10 +45,10 @@ function App() {
   }
 
   return (
-    <div>
+    <div style={{ textAlign: 'center' }}>
       <RotatingHeadingSimple text="HEX" />
-      <button onClick={handleGoToOnePlayer} style={{ marginRight: '15px' }}>One player</button> 
-      <button onClick={handleGoToTwoPlayer} style={{ marginRight: '15px' }}>Two player</button>
+      <button onClick={handleGoToOnePlayer} style={{ marginRight: '4%' }}>One player</button> 
+      <button onClick={handleGoToTwoPlayer} style={{ marginRight: '4%' }}>Two player</button>
       <button onClick={handleGoToPuzzle}>Puzzle</button>
       <hr />
         {contentToDisplay}

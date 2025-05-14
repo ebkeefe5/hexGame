@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function OnePlayerPage() {
   return (
-    <div className ="leftIndent">
+    <div>
       <p>one player gameplay</p>
     </div>
   );
