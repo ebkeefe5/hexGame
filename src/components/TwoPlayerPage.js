@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import HexButton from './HexButton';
+import HexButton from './button/HexButton';
 import  border  from './border/borders.js';
 import { BOARD_DIMENSION } from '../constants/board.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
