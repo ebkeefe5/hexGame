@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
 import  border  from './border/borders.js';
-import { BOARD_DIMENSION, BOARD_WIDTH, BOARD_HEIGHT } from '../constants/board.js';
+import { BOARD_DIMENSION, BOARD_WIDTH } from '../constants/board.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
 
 export default function TwoPlayerPage() {
@@ -58,8 +58,8 @@ export default function TwoPlayerPage() {
     }
 
     return (
-        <div style={{ display: 'block', margin: 'auto', width:'40%' }}>
-            <svg viewBox='0 0 277 170'>
+        <div style={{ display: 'block', margin: 'auto', width:'70%' }}>
+            <svg viewBox='0 0 287 180'>
                 {border({borderNumber:0}) }
                 {border({borderNumber:1}) }
                 {border({borderNumber:2}) }
