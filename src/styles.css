@@ -31,3 +31,38 @@ h2 {
   height:100%;
   max-width: 50%;
 }
+
+.spacerColumn {
+  float: left;
+  width: 28%;
+  padding: 5px;
+}
+
+.spacerColumn8 {
+  float: left;
+  width: 8.5%;
+  padding: 5px;
+}
+
+.button {
+  background-color: #A9A9A9;
+  border-style:solid;
+  border: 1 px solid black;
+  color: black;
+  padding: 10px 22px;
+  margin-left:2px;
+  text-align: center;
+  display: inline-block;
+  font-size: 12px;
+  border-radius: 12px;
+}
+
+.spacerRow{
+  padding-bottom: 30px;
+}
+
+.parent-container svg {
+    width: 60%;
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* To prevent extra spacing below inline elements */
+}
