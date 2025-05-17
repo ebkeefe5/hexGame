@@ -2,48 +2,61 @@ import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
 import  border  from './border/borders.js';
-import { BOARD_DIMENSION, BOARD_WIDTH } from '../constants/board.js';
+import { BOARD_DIMENSION } from '../constants/board.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
 
 export default function TwoPlayerPage() {
-    const CENTER_INDEX = Math.floor((BOARD_DIMENSION * BOARD_DIMENSION)/2);
+    const CENTER_INDEX = Math.floor(BOARD_DIMENSION/2);
+
+    const create2DArray = (dimension) => {
+        const array2D = [];
+        for (let i = 0; i < dimension; i++) {
+            array2D.push(Array(dimension).fill(0)); // Create a new row filled with 0s
+        }
+        return array2D;
+    };
+
     const [hexagons, setHexagons] = useState(() => {
-        const initialHexagons = Array(BOARD_DIMENSION * BOARD_DIMENSION).fill(0);
-        initialHexagons[CENTER_INDEX] = -1;
+        const initialHexagons = create2DArray(BOARD_DIMENSION);
+        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
         return initialHexagons;
-  });
+    });
     const [redIsNext, setRedIsNext] = useState(true);
+    const [gameOver, setGameOver] = useState(false);
 
     const handleHexagonClick = (i, j) => {
-        if (hexagons[i * BOARD_DIMENSION + j] != 0)
+        if (hexagons[i][j] != 0 || gameOver)
             return
+
+        const nextHexagons = JSON.parse(JSON.stringify(hexagons));
+
+        //update center piece if needed
+        if (nextHexagons[CENTER_INDEX][CENTER_INDEX] == -1)
+            nextHexagons[CENTER_INDEX][CENTER_INDEX] = 0;
         
-        const nextHexagons = hexagons.slice();
-        if (redIsNext)
-            nextHexagons[i * BOARD_DIMENSION + j] = 1;
+        if (redIsNext){
+            nextHexagons[i][j] = 1;
+            if (checkWinBoardPlayer1(nextHexagons))
+                setGameOver(true);
+        }         
         else 
-            nextHexagons[i * BOARD_DIMENSION + j] = 2;
-        if (nextHexagons[CENTER_INDEX] == -1)
-            nextHexagons[CENTER_INDEX] = 0;
+        {
+            nextHexagons[i][j] = 2;       
+        }      
         
         setRedIsNext(!redIsNext);
         setHexagons(nextHexagons); 
     };
 
     const renderHexagons = () => {
-        console.log(BOARD_WIDTH);
         const hexagonComponents = [];
         for (let i = 0; i < BOARD_DIMENSION; i++) {
             for (let j = 0; j < BOARD_DIMENSION; j++) {
                 var fill = COLORS[0];
-                if (hexagons[i * BOARD_DIMENSION + j] == 1)
-                    fill = COLORS[1];
-                else if (hexagons[i * BOARD_DIMENSION + j] == 2)
-                    fill = COLORS[2];
-                else if (hexagons[i * BOARD_DIMENSION + j] == -1)
-                {
+                if (hexagons[i][j] == -1)
                     fill = NOT_ALLOWED_COLOR;
-                }
+                else 
+                    fill = COLORS[hexagons[i][j]];
                     
                 hexagonComponents.push(<HexButton 
                     key={`hex-${i}-${j}`}
@@ -68,4 +81,69 @@ export default function TwoPlayerPage() {
             </svg>
         </div>
     );
+
+    function checkWinBoardPlayer1(hexagons)
+    {
+        const visitedRedHexagons = JSON.parse(JSON.stringify(hexagons));
+
+        for (var col = 0; col < visitedRedHexagons.length; col++)
+        {
+            //start new BFS for each hex at the top row
+            const toVisit = []; const adj = new Map(); 
+
+            if (hexagons[0][col] == 1)
+            {
+                var lastHexagon = redBFS(toVisit, adj, {x:0, y:col}, visitedRedHexagons);
+                if (lastHexagon != null)
+                {
+                    markPathRed(lastHexagon, adj, hexagons);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    function redBFS(toVisit, adj, root, visitedRedHexagons)
+    {
+        const size = visitedRedHexagons.length;
+        toVisit.push(root);
+        visitedRedHexagons[root.x][root.y] = 3;
+
+        const directions = [[0, -1], [1, -1], 
+                            [-1, 0], [1, 0], 
+                            [-1, 1], [0, 1]];
+        
+        while(toVisit.length > 0)
+        {
+            var curr = toVisit[0];
+            toVisit.shift();
+            if (curr.x == size - 1)
+                return curr;
+            for (const [di, dj] of directions) 
+            {
+                var row = curr.x + di; var col = curr.y + dj;
+                if (row >= 0 && row < size && col >= 0 && col < size && visitedRedHexagons[row][col] == 1)
+                {
+                    var next = {x:row, y:col};
+                    adj.set(next, curr); 
+                    toVisit.push(next);
+                    visitedRedHexagons[row][col] = 3;
+                }
+            }
+        }
+        return null;	
+    }
+
+    function markPathRed(lastHexagon, adj, hexagons)
+    {
+        var curr = lastHexagon;
+        while(curr.x > 0)
+        {
+            hexagons[curr.x][curr.y] = 3;
+            curr = adj.get(curr);
+        }
+        hexagons[curr.x][curr.y] = 3;
+    }
 }
