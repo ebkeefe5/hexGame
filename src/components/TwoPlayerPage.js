@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
 import RestartButton from './button/RestartButton';
+import PlayerTurn from './labels/PlayerTurn';
 import  border from './border/borders.js';
 import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
 import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
@@ -26,10 +27,12 @@ export default function TwoPlayerPage() {
     });
     const [redIsNext, setRedIsNext] = useState(true);
     const [gameOver, setGameOver] = useState(false);
+    const [playerTurn, setPlayerTurn] = useState("Red's Move!");
 
     const handleRestartClick = () => {
         setGameOver(false);
         setRedIsNext(true);
+        setPlayerTurn("Red's Move!")
         const initialHexagons = create2DArray(BOARD_DIMENSION);
         initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
         setHexagons(initialHexagons);
@@ -47,13 +50,23 @@ export default function TwoPlayerPage() {
         if (redIsNext){
             nextHexagons[i][j] = 1;
             if (checkWinBoardPlayer1({hexagons:nextHexagons}))
+            {
                 setGameOver(true);
+                setPlayerTurn("Red wins!")
+            }      
+            else 
+                setPlayerTurn("Blue's Move!")         
         }         
         else 
-        {
+        {            
             nextHexagons[i][j] = 2;  
             if (checkWinBoardPlayer2({board:nextHexagons}))
-                setGameOver(true);     
+            {
+                setGameOver(true);
+                setPlayerTurn("Blue wins!")     
+            }
+            else 
+                setPlayerTurn("Red's Move!")
         }      
         
         setRedIsNext(!redIsNext);
@@ -92,7 +105,10 @@ export default function TwoPlayerPage() {
                     onClick={() => handleRestartClick()}
                 />
                <div className = "spacerRow"></div>
-               <h3 id = "playerTurn">Red's Move!</h3>
+               <PlayerTurn 
+                    key={`turnLabel`}
+                    text={playerTurn}
+                />
             </div>
             <div display ="inline-block" >
                 <svg viewBox='0 0 1000 800'>
