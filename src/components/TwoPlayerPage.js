@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
+import RestartButton from './button/RestartButton';
 import  border  from './border/borders.js';
-import { BOARD_DIMENSION, BOARD_WIDTH, BOARD_HEIGHT } from '../constants/board.js';
+import { BOARD_DIMENSION } from '../constants/board.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
 
 export default function TwoPlayerPage() {
@@ -24,13 +25,20 @@ export default function TwoPlayerPage() {
     const [redIsNext, setRedIsNext] = useState(true);
     const [gameOver, setGameOver] = useState(false);
 
+    const handleRestartClick = () => {
+        setGameOver(false);
+        setRedIsNext(true);
+        const initialHexagons = create2DArray(BOARD_DIMENSION);
+        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
+        setHexagons(initialHexagons);
+    }
+
     const handleHexagonClick = (i, j) => {
         if (hexagons[i][j] != 0 || gameOver)
             return
 
         const nextHexagons = JSON.parse(JSON.stringify(hexagons));
 
-        //update center piece if needed
         if (nextHexagons[CENTER_INDEX][CENTER_INDEX] == -1)
             nextHexagons[CENTER_INDEX][CENTER_INDEX] = 0;
         
@@ -77,7 +85,10 @@ export default function TwoPlayerPage() {
             <div class="spacerColumn">
                <div class = "spacerRow"></div>
                <div class = "spacerRow"></div>
-               <button type="submit" class="button"id="restartGame">Restart Game</button>
+               <RestartButton 
+                    key={`restartButton`}
+                    onClick={() => handleRestartClick()}
+                />
                <div class = "spacerRow"></div>
                <h3 id = "playerTurn">Red's Move!</h3>
             </div>
