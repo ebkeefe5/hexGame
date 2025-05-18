@@ -1,5 +1,6 @@
 // src/App.js
 import React, { useState } from 'react';
+import MenuButton from './components/button/MenuButton';
 import HomePage from './components/HomePage';
 import OnePlayerPage from './components/OnePlayerPage';
 import TwoPlayerPage from './components/TwoPlayerPage';
@@ -17,17 +18,21 @@ function RotatingHeadingSimple({ text }) {
 
 function App() {
   const [currentPage, setCurrentPage] = useState('home'); // Initial state is 'home'
+  const [selectedMenuItem, setSelectedMenuItem] = useState([false, false, false])
 
   const handleGoToOnePlayer = () => {
     setCurrentPage('onePlayer');
+    setSelectedMenuItem([true, false, false]);
   };
 
   const handleGoToTwoPlayer = () => {
     setCurrentPage('twoPlayer');
+    setSelectedMenuItem([false, true, false]);
   };
 
   const handleGoToPuzzle = () => {
     setCurrentPage('puzzle');
+     setSelectedMenuItem([false, false, true]);
   };
 
   let contentToDisplay;
@@ -47,9 +52,26 @@ function App() {
   return (
     <div style={{ textAlign: 'center' }}>
       <RotatingHeadingSimple text="HEX" />
-      <button onClick={handleGoToOnePlayer} style={{ marginRight: '6%' }}>One player</button> 
-      <button onClick={handleGoToTwoPlayer} style={{ marginRight: '6%' }}>Two player</button>
-      <button onClick={handleGoToPuzzle}>Puzzle</button>
+      <MenuButton 
+          key={`onePlayer`}
+          label={"One Player"}
+          onClick={() => handleGoToOnePlayer()}
+          selected = {selectedMenuItem[0]}
+          pushRight={true}
+      />
+       <MenuButton 
+          key={`twoPlayer`}
+          label={"Two Player"}
+          onClick={() => handleGoToTwoPlayer()}
+          selected = {selectedMenuItem[1]}
+          pushRight={true}
+      />
+       <MenuButton 
+          key={`puzzle`}
+          label={"Puzzle"}
+          onClick={() => handleGoToPuzzle()}
+          selected = {selectedMenuItem[2]}
+      />
       <hr />
         {contentToDisplay}
     </div>
