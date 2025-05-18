@@ -34,7 +34,7 @@ export default class HexButton extends React.Component
         const polygonStyle = {
             fill: fill,
             stroke: 'black',
-            strokeWidth: 0.1,
+            strokeWidth: 0.5,
         };
 
         return (   

@@ -1,6 +1,6 @@
 export const BOARD_DIMENSION = 11; //must be an odd number
-export const HEXAGON_EDGE_LENGTH = Math.min(window.screen.height,window.screen.width)/(BOARD_DIMENSION*3.6);
-export const TOP_LEFT_HEXAGON_CENTER_X = 400.0 - BOARD_DIMENSION * HEXAGON_EDGE_LENGTH;
+export const HEXAGON_EDGE_LENGTH = window.screen.width/(BOARD_DIMENSION*6.0);
+export const TOP_LEFT_HEXAGON_CENTER_X = 357 - (BOARD_DIMENSION - 2) * HEXAGON_EDGE_LENGTH;
 export const TOP_LEFT_HEXAGON_CENTER_Y = HEXAGON_EDGE_LENGTH * 2.5;
 export const HEXAGON_WIDTH = Math.sqrt(3)*HEXAGON_EDGE_LENGTH;
 export const BOARD_WIDTH = HEXAGON_WIDTH * (BOARD_DIMENSION + 1.5) * 1.5;
