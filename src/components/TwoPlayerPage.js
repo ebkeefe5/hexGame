@@ -1,17 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
+import BoardSizeButton from './button/BoardSizeButton.js';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
 import  border from './border/borders.js';
 import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
 import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
-import { BOARD_DIMENSION } from '../constants/board.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
 
 export default function TwoPlayerPage() {
-    const CENTER_INDEX = Math.floor(BOARD_DIMENSION/2);
-
     const create2DArray = (dimension) => {
         const array2D = [];
         for (let i = 0; i < dimension; i++) {
@@ -19,9 +17,13 @@ export default function TwoPlayerPage() {
         }
         return array2D;
     };
-
+    
+    const [gameInProgress, setGameInProgress] = useState(false);
+    const [twoPlayerBoardDimension, setTwoPlayerBoardDimension] = useState(5);
+    const [selectedBoardSize, setSeletedBoardSize] = useState([true, false, false, false])
+    const CENTER_INDEX = Math.floor(twoPlayerBoardDimension/2);
     const [hexagons, setHexagons] = useState(() => {
-        const initialHexagons = create2DArray(BOARD_DIMENSION);
+        const initialHexagons = create2DArray(twoPlayerBoardDimension);
         initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
         return initialHexagons;
     });
@@ -30,17 +32,47 @@ export default function TwoPlayerPage() {
     const [playerTurn, setPlayerTurn] = useState("Red's Move!");
 
     const handleRestartClick = () => {
+        setGameInProgress(false);
         setGameOver(false);
         setRedIsNext(true);
         setPlayerTurn("Red's Move!")
-        const initialHexagons = create2DArray(BOARD_DIMENSION);
+        const initialHexagons = create2DArray(twoPlayerBoardDimension);
         initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
         setHexagons(initialHexagons);
+    }
+
+    const handleBoardSizeClick = (boardDimension) => {
+        if (gameInProgress)
+        {
+            alert("please restart the game to update board size");
+            return;
+        }
+        setTwoPlayerBoardDimension(boardDimension)
+        setGameOver(false);
+        setRedIsNext(true);
+        setPlayerTurn("Red's Move!")
+        //use boardDimension variable for size since
+        //twoPlayerBoardDimension takes another cycle to actually update
+        const initialHexagons = create2DArray(boardDimension); 
+        const CENTER_INDEX = Math.floor(boardDimension/2);
+        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
+        setHexagons(initialHexagons);
+
+        if (boardDimension == 5)
+            setSeletedBoardSize([true, false, false, false]);
+        else if (boardDimension == 7)
+            setSeletedBoardSize([false, true, false, false]);
+        else if (boardDimension == 9)
+            setSeletedBoardSize([false, false, true, false]);
+        else 
+            setSeletedBoardSize([false, false, false, true]);
     }
 
     const handleHexagonClick = (i, j) => {
         if (hexagons[i][j] != 0 || gameOver)
             return
+
+        setGameInProgress(true);
 
         const nextHexagons = JSON.parse(JSON.stringify(hexagons));
 
@@ -75,8 +107,8 @@ export default function TwoPlayerPage() {
 
     const renderHexagons = () => {
         const hexagonComponents = [];
-        for (let i = 0; i < BOARD_DIMENSION; i++) {
-            for (let j = 0; j < BOARD_DIMENSION; j++) {
+        for (let i = 0; i < twoPlayerBoardDimension; i++) {
+            for (let j = 0; j < twoPlayerBoardDimension; j++) {
                 var fill = COLORS[0];
                 if (hexagons[i][j] == -1)
                     fill = NOT_ALLOWED_COLOR;
@@ -88,6 +120,7 @@ export default function TwoPlayerPage() {
                     row = {i}
                     col = {j}
                     fill = {fill}
+                    board_dimension = {twoPlayerBoardDimension}
                     onClick={() => handleHexagonClick(i, j)}
             />)
             }
@@ -98,13 +131,37 @@ export default function TwoPlayerPage() {
     return (
         <div className="parent-container">
             <div className="spacerColumn">
-               <div className = "spacerRow"></div>
+               <h3> Select Board Size</h3>
+               <BoardSizeButton 
+                    key={`5-size`}
+                    label={5}
+                    selected={selectedBoardSize[0]}
+                    onClick={() => handleBoardSizeClick(5)}
+                />         
+                <BoardSizeButton 
+                    key={`7-size`}
+                    label={7}
+                    selected={selectedBoardSize[1]}
+                    onClick={() => handleBoardSizeClick(7)}
+                />   
+                <BoardSizeButton 
+                    key={`9-size`}
+                    label={9}
+                    selected={selectedBoardSize[2]}
+                    onClick={() => handleBoardSizeClick(9)}
+                />      
+                 <BoardSizeButton 
+                    key={`11-size`}
+                    label={11}
+                    selected={selectedBoardSize[3]}
+                    onClick={() => handleBoardSizeClick(11)}
+                />              
                <div className = "spacerRow"></div>
                <RestartButton 
                     key={`restartButton`}
                     onClick={() => handleRestartClick()}
                 />
-               <div className = "spacerRow"></div>
+                <div className = "spacerRow"></div>
                <PlayerTurn 
                     key={`turnLabel`}
                     text={playerTurn}
@@ -112,10 +169,10 @@ export default function TwoPlayerPage() {
             </div>
             <div display ="inline-block" >
                 <svg viewBox='0 0 1000 800'>
-                    {border({borderNumber:0}) }
-                    {border({borderNumber:1}) }
-                    {border({borderNumber:2}) }
-                    {border({borderNumber:3}) }
+                    {border({borderNumber:0, boardDimension:twoPlayerBoardDimension}) }
+                    {border({borderNumber:1, boardDimension:twoPlayerBoardDimension}) }
+                    {border({borderNumber:2, boardDimension:twoPlayerBoardDimension}) }
+                    {border({borderNumber:3, boardDimension:twoPlayerBoardDimension}) }
                     {renderHexagons()}       
                 </svg>
             </div>

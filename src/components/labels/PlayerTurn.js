@@ -6,7 +6,7 @@ export default class RestartButton extends React.Component
         const { text } = this.props;
 
         return (   
-             <h3 id = "playerTurn">{text}</h3>
+             <h4 id = "playerTurn">{text}</h4>
         );
     }
 }

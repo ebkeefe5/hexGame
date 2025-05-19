@@ -6,7 +6,7 @@ export default class RestartButton extends React.Component
         const { onClick} = this.props;
 
         return (   
-            <button type="submit" className="button"id="restartGame" onClick={onClick}>Restart Game</button>
+            <button style={{ padding: '10px 22px'}} type="submit" className="sideBarButton" onClick={onClick}>Restart Game</button>
         );
     }
 }

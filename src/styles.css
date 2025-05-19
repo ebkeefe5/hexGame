@@ -44,22 +44,21 @@ h2 {
   padding: 5px;
 }
 
-.button {
-  background-color: #A9A9A9;
-  border-style:solid;
-  border: 1 px solid black;
+.sideBarButton {
+  background-color: #F0F0F0;
+  border:1px solid black;
   color: black;
-  padding: 10px 22px;
   margin-left:2px;
   text-align: center;
   display: inline-block;
   font-size: 12px;
-  border-radius: 12px;
+  border-radius: 5px;
 }
 
 .menuButton {
+  border:0px;
   padding: 5px 3%;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .spacerRow{
