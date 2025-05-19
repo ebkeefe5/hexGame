@@ -14,7 +14,7 @@ export default class MenuButton extends React.Component
             marginRightPercent = '6%'       
         
         return (   
-            <button type="submit" class = "menuButton" onClick={onClick} style={{ marginRight: marginRightPercent, 
+            <button type="submit" className = "menuButton" onClick={onClick} style={{ marginRight: marginRightPercent, 
                 backgroundColor:backgroundColor }}>{label} </button>
         );
     }
