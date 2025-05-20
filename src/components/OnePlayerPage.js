@@ -8,6 +8,7 @@ import PlayerTurn from './labels/PlayerTurn';
 import  border from './border/borders.js';
 import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
 import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
+import moveAI from '../utility/AI/AI.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
 
 export default function TwoPlayerPage() {
@@ -40,16 +41,24 @@ export default function TwoPlayerPage() {
         setPlayerTurn("Red's Move!")
         const initialHexagons = create2DArray(twoPlayerBoardDimension);
         initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
-        setHexagons(initialHexagons);
+        if (selectedColor[1]) //selected blue
+        {
+          //move red AI, AIPlayerNumber index is different
+          moveAI({board:initialHexagons, AIPlayerNumber:1})
+          setRedIsNext(false);
+        }
+        setHexagons(initialHexagons);          
     }
 
     const handleSelectBlueClick = () => {
       if (gameInProgress)
       {
-            alert("please restart the game to update color");
-            return;
+        alert("please restart the game to update color");
+        return;
       }
       setSelectedColor([false, true]);
+      moveAI({board:hexagons, AIPlayerNumber:1})
+      setRedIsNext(false);
     }
 
     const handleSelectRedClick = () => {
@@ -89,11 +98,15 @@ export default function TwoPlayerPage() {
     }
 
     const handleHexagonClick = (i, j) => {
-        if (hexagons[i][j] != 0 || gameOver)
-            return
-
+        if (hexagons[i][j] != 0 
+          || selectedColor[0] == true && !redIsNext
+          || selectedColor[1] == true && redIsNext
+          || gameOver)
+          {
+            return;
+          }
+            
         setGameInProgress(true);
-
         const nextHexagons = JSON.parse(JSON.stringify(hexagons));
 
         if (nextHexagons[CENTER_INDEX][CENTER_INDEX] == -1)
@@ -104,10 +117,18 @@ export default function TwoPlayerPage() {
             if (checkWinBoardPlayer1({hexagons:nextHexagons}))
             {
                 setGameOver(true);
-                setPlayerTurn("Red wins!")
+                setPlayerTurn("Red wins!");
             }      
             else 
-                setPlayerTurn("Blue's Move!")         
+            {             
+              moveAI({board:nextHexagons, AIPlayerNumber:2})
+              setRedIsNext(true);   
+              if (checkWinBoardPlayer2({board:nextHexagons}))
+              {
+                  setGameOver(true);
+                  setPlayerTurn("Blue wins!");  
+              }    
+            }
         }         
         else 
         {            
@@ -115,13 +136,19 @@ export default function TwoPlayerPage() {
             if (checkWinBoardPlayer2({board:nextHexagons}))
             {
                 setGameOver(true);
-                setPlayerTurn("Blue wins!")     
+                setPlayerTurn("Blue wins!");
             }
             else 
-                setPlayerTurn("Red's Move!")
+            {
+              moveAI({board:nextHexagons, AIPlayerNumber:1})
+              setRedIsNext(false);
+              if (checkWinBoardPlayer1({hexagons:nextHexagons}))
+              {
+                setGameOver(true);
+                setPlayerTurn("Red wins!");
+              }      
+            }            
         }      
-        
-        setRedIsNext(!redIsNext);
         setHexagons(nextHexagons); 
     };
 

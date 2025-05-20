@@ -2,7 +2,6 @@ import React from 'react';
 
 export default function checkWinBoardPlayer2( { board } )
 {
-    console.log(board);
     const visited = JSON.parse(JSON.stringify(board)); 
 
     for (var row = 0; row < visited.length; row++)
