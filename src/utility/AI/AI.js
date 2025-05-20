@@ -1,53 +1,55 @@
 import React from 'react';
-import getOpenCentralMoves from './MoveGenerator'
+import getOpenCentralMoves from './MoveGenerator';
+import checkWinBoardPlayer1  from '../../utility/RedGameOverCheck.js';
+import checkWinBoardPlayer2  from '../../utility/BlueGameOverCheck.js';
+import calculateRedMovesToWin from './Heuristic.js';
+import calculateBlueMovesToWin from './BlueHeuristic.js';
 
-export default function moveAI({ board, AIPlayerNumber })
+export default function moveAI({ board, AIPlayerNumber, difficulty })
 {
-  let openMoves = Array.from(getOpenCentralMoves({board: board}));
-  const randomIndex = Math.floor(Math.random() * openMoves.length);
-  let bestMove = openMoves[randomIndex];
-  board[bestMove.y][bestMove.x] = AIPlayerNumber;
+  if (difficulty[0])
+  {
+    let openMoves = Array.from(getOpenCentralMoves({board: board}));
+    const randomIndex = Math.floor(Math.random() * openMoves.length);
+    let bestMove = openMoves[randomIndex];
+    board[bestMove.y][bestMove.x] = AIPlayerNumber;
+  }
+  else if (difficulty[1])
+    moveAIAtDepth(1, board, AIPlayerNumber);
+  else 
+    moveAIAtDepth(4, board, AIPlayerNumber);
 }
 
-function moveAILevel2(board) {
-  moveAIAtDepth(1);
-}
-
-function moveAILevel3(board)
-{
-  moveAIAtDepth(4);
-}
-
-function minMax(boardCopy, depth, maximizingPlayer, alpha, beta) {
-  
+function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber) {
+  console.log(boardCopy);
   if (maximizingPlayer) {
-    if ((AIPlayerNumber == 1 && checkWinBoardPlayer2(boardCopy))
-      || (AIPlayerNumber == 2 && checkWinBoardPlayer1(boardCopy)))
+    if ((AIPlayerNumber == 1 && checkWinBoardPlayer2({board: boardCopy}))
+      || (AIPlayerNumber == 2 && checkWinBoardPlayer1({hexagons: boardCopy})))
       return -Infinity;
   }
   else
   {
-    if ((playerNumber == 1 && checkWinBoardPlayer2(boardCopy))
-      || (playerNumber == 2 && checkWinBoardPlayer1(boardCopy)))
+    if ((AIPlayerNumber == 2 && checkWinBoardPlayer2({board: boardCopy}))
+      || (AIPlayerNumber == 1 && checkWinBoardPlayer1({hexagons: boardCopy})))
       return Infinity;
   }
      
   if (depth === 0){
-    return calculateHeuristic(boardCopy);
+    return calculateHeuristic(boardCopy, AIPlayerNumber);
   }
 
   if (maximizingPlayer) {
     let bestValue = -Infinity;
     //TODO only check if game over if at least 11 moves
-    let openMoves = getOpenCentralMoves(boardCopy);
+    let openMoves = getOpenCentralMoves({board: boardCopy});
     for (let openMove of openMoves){
       let row = openMove.y;
       let col = openMove.x;
       if (boardCopy[row][col] != 0)
         continue;
-      copy = JSON.parse(JSON.stringify(boardCopy));
+      const copy = JSON.parse(JSON.stringify(boardCopy));
       copy[row][col] = AIPlayerNumber;
-      let value = minMax(copy, depth - 1, false, alpha, beta);
+      let value = minMax(copy, depth - 1, false, alpha, beta, AIPlayerNumber);
       bestValue = Math.max(bestValue, value);
       alpha = Math.max(alpha, value);
       if (beta <= alpha) {
@@ -57,19 +59,22 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta) {
     return bestValue;
   } else {
     //TODO only check if game over if at least 11 moves
-    if ((playerNumber == 1 && checkWinBoardPlayer2(boardCopy))
-      || (playerNumber == 2 && checkWinBoardPlayer1(boardCopy)))
-      return Infinity;
+    // if ((playerNumber == 1 && checkWinBoardPlayer2(boardCopy))
+    //   || (playerNumber == 2 && checkWinBoardPlayer1(boardCopy)))
+    //   return Infinity;
     let bestValue = Infinity;
-    let openMoves = getOpenCentralMoves(boardCopy);
+    let openMoves = getOpenCentralMoves({board: boardCopy});
     for (let openMove of openMoves){
       let row = openMove.y;
       let col = openMove.x;
         if (boardCopy[row][col] != 0)
           continue;
-        copy = JSON.parse(JSON.stringify(boardCopy));
+        const copy = JSON.parse(JSON.stringify(boardCopy));
+        var playerNumber = 1;
+        if (AIPlayerNumber == 1)
+          playerNumber = 2;
         copy[row][col] = playerNumber;
-        let value = minMax(copy, depth - 1, true, alpha, beta);
+        let value = minMax(copy, depth - 1, true, alpha, beta, AIPlayerNumber);
         bestValue = Math.min(bestValue, value);
         beta = Math.min(beta, value);
         if (beta <= alpha) {
@@ -80,25 +85,22 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta) {
   }
 }
 
-function moveAIAtDepth(depthLevel)
+function moveAIAtDepth(depthLevel, board, AIPlayerNumber)
 {
-  if (turn != AIPlayerNumber)
-    return;
-
   var bestMove = {y: 0, x: 0}
   let bestValue = -Infinity;
   let alpha = -Infinity;
   let beta = Infinity;
   let depth = depthLevel; //in order to further increase this depth,
-  let openMoves = getOpenCentralMoves(board);
+  let openMoves = getOpenCentralMoves({board:board});
   for (let openMove of openMoves){
     let row = openMove.y;
     let col = openMove.x;
     if (board[row][col] != 0)
       continue;
-    copy = JSON.parse(JSON.stringify(board));
+    const copy = JSON.parse(JSON.stringify(board));
     copy[row][col] = AIPlayerNumber;
-    let value = minMax(copy, depth - 1, false, alpha, beta);
+    let value = minMax(copy, depth - 1, false, alpha, beta, AIPlayerNumber);
     if (value > bestValue)
      {
       bestValue = value;
@@ -108,14 +110,7 @@ function moveAIAtDepth(depthLevel)
   board[bestMove.y][bestMove.x] = AIPlayerNumber;
 }
 
-function moreCentral(oldX, oldY, newX, newY)
-{
-  var newDistanceFromCenter = Math.abs(5 - newX)  + Math.abs(5 - newY);
-  var oldDistanceFromCenter = Math.abs(5 - oldX)  + Math.abs(5 - oldY);
-  return newDistanceFromCenter < oldDistanceFromCenter;
-}
-
-function calculateHeuristic(board)
+function calculateHeuristic(board, AIPlayerNumber)
 {
   if (AIPlayerNumber == 2)
     return calculateRedMovesToWin(board) - calculateBlueMovesToWin(board);

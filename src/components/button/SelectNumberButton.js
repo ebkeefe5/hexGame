@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class RestartButton extends React.Component
+export default class SelectNumberButton extends React.Component
 {
     render() {
         const { onClick, label, selected} = this.props;

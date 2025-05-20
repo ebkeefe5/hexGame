@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
-import BoardSizeButton from './button/BoardSizeButton.js';
+import SelectNumberButton from './button/SelectNumberButton.js';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
 import  border from './border/borders.js';
@@ -132,25 +132,25 @@ export default function TwoPlayerPage() {
         <div className="parent-container">
             <div className="spacerColumn">
                <h3> Select Board Size</h3>
-               <BoardSizeButton 
+               <SelectNumberButton 
                     key={`5-size`}
                     label={5}
                     selected={selectedBoardSize[0]}
                     onClick={() => handleBoardSizeClick(5)}
                 />         
-                <BoardSizeButton 
+                <SelectNumberButton 
                     key={`7-size`}
                     label={7}
                     selected={selectedBoardSize[1]}
                     onClick={() => handleBoardSizeClick(7)}
                 />   
-                <BoardSizeButton 
+                <SelectNumberButton 
                     key={`9-size`}
                     label={9}
                     selected={selectedBoardSize[2]}
                     onClick={() => handleBoardSizeClick(9)}
                 />      
-                 <BoardSizeButton 
+                 <SelectNumberButton 
                     key={`11-size`}
                     label={11}
                     selected={selectedBoardSize[3]}
@@ -161,7 +161,6 @@ export default function TwoPlayerPage() {
                     key={`restartButton`}
                     onClick={() => handleRestartClick()}
                 />
-                <div className = "spacerRow"></div>
                <PlayerTurn 
                     key={`turnLabel`}
                     text={playerTurn}

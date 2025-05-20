@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
-import BoardSizeButton from './button/BoardSizeButton.js';
+import SelectNumberButton from './button/SelectNumberButton.js';
 import ColorButton from './button/ColorButton.js';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
@@ -20,6 +20,7 @@ export default function TwoPlayerPage() {
         return array2D;
     };
     
+    const [difficulty, selectDifficulty] = useState([true, false, false]);
     const [gameInProgress, setGameInProgress] = useState(false);
     const [twoPlayerBoardDimension, setTwoPlayerBoardDimension] = useState(5);
     const [selectedBoardSize, setSeletedBoardSize] = useState([true, false, false, false])
@@ -44,7 +45,7 @@ export default function TwoPlayerPage() {
         if (selectedColor[1]) //selected blue
         {
           //move red AI, AIPlayerNumber index is different
-          moveAI({board:initialHexagons, AIPlayerNumber:1})
+          moveAI({board:initialHexagons, AIPlayerNumber:1, difficulty: difficulty})
           setRedIsNext(false);
         }
         setHexagons(initialHexagons);          
@@ -57,7 +58,7 @@ export default function TwoPlayerPage() {
         return;
       }
       setSelectedColor([false, true]);
-      moveAI({board:hexagons, AIPlayerNumber:1})
+      moveAI({board:hexagons, AIPlayerNumber:1, difficulty: difficulty})
       setRedIsNext(false);
     }
 
@@ -97,6 +98,21 @@ export default function TwoPlayerPage() {
             setSeletedBoardSize([false, false, false, true]);
     }
 
+    const handleDifficultyClick = (difficulty) => {
+        if (gameInProgress)
+        {
+            alert("please restart the game to update difficulty");
+            return;
+        }
+
+        if (difficulty == 1)
+            selectDifficulty([true, false, false]);
+        else if (difficulty == 2)
+            selectDifficulty([false, true, false]);
+        else 
+            selectDifficulty([false, false, true]);
+    }
+
     const handleHexagonClick = (i, j) => {
         if (hexagons[i][j] != 0 
           || selectedColor[0] == true && !redIsNext
@@ -121,7 +137,7 @@ export default function TwoPlayerPage() {
             }      
             else 
             {             
-              moveAI({board:nextHexagons, AIPlayerNumber:2})
+              moveAI({board:nextHexagons, AIPlayerNumber:2, difficulty: difficulty})
               setRedIsNext(true);   
               if (checkWinBoardPlayer2({board:nextHexagons}))
               {
@@ -140,7 +156,7 @@ export default function TwoPlayerPage() {
             }
             else 
             {
-              moveAI({board:nextHexagons, AIPlayerNumber:1})
+              moveAI({board:nextHexagons, AIPlayerNumber:1, difficulty:difficulty})
               setRedIsNext(false);
               if (checkWinBoardPlayer1({hexagons:nextHexagons}))
               {
@@ -179,25 +195,25 @@ export default function TwoPlayerPage() {
         <div className="parent-container">
             <div className="spacerColumn">
                <h4> Select Board Size</h4>
-               <BoardSizeButton 
+               <SelectNumberButton 
                     key={`5-size`}
                     label={5}
                     selected={selectedBoardSize[0]}
                     onClick={() => handleBoardSizeClick(5)}
                 />         
-                <BoardSizeButton 
+                <SelectNumberButton 
                     key={`7-size`}
                     label={7}
                     selected={selectedBoardSize[1]}
                     onClick={() => handleBoardSizeClick(7)}
                 />   
-                <BoardSizeButton 
+                <SelectNumberButton 
                     key={`9-size`}
                     label={9}
                     selected={selectedBoardSize[2]}
                     onClick={() => handleBoardSizeClick(9)}
                 />      
-                <BoardSizeButton 
+                <SelectNumberButton 
                     key={`11-size`}
                     label={11}
                     selected={selectedBoardSize[3]}
@@ -211,7 +227,7 @@ export default function TwoPlayerPage() {
                     red = { true }
                     onClick={() => handleSelectRedClick()}
                 />  
-                 <ColorButton 
+                <ColorButton 
                     key={`blueColorButton`}
                     label={'Blue'}
                     selected={selectedColor[1]}
@@ -219,17 +235,33 @@ export default function TwoPlayerPage() {
                     onClick={() => handleSelectBlueClick()}
                 />  
                <h4> Select Difficulty</h4>  
-
-               <div className = "spacerRow"></div>
-               <RestartButton 
-                    key={`restartButton`}
-                    onClick={() => handleRestartClick()}
-                />
-                <div className = "spacerRow"></div>
+              <SelectNumberButton 
+                    key={`1-difficulty`}
+                    label={1}
+                    selected={difficulty[0]}
+                    onClick={() => handleDifficultyClick(1)}
+              />      
+              <SelectNumberButton 
+                  key={`2-difficulty`}
+                  label={2}
+                  selected={difficulty[1]}
+                  onClick={() => handleDifficultyClick(2)}
+              />      
+              <SelectNumberButton 
+                  key={`3-difficulty`}
+                  label={3}
+                  selected={difficulty[2]}
+                  onClick={() => handleDifficultyClick(3)}
+              />      
                <PlayerTurn 
                     key={`turnLabel`}
                     text={playerTurn}
                 />
+               <RestartButton 
+                    key={`restartButton`}
+                    onClick={() => handleRestartClick()}
+                />
+               
             </div>
             <div display ="inline-block" >
                 <svg viewBox='0 0 1000 800'>
