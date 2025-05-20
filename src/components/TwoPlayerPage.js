@@ -156,15 +156,14 @@ export default function TwoPlayerPage() {
                     selected={selectedBoardSize[3]}
                     onClick={() => handleBoardSizeClick(11)}
                 />              
-               <div className = "spacerRow"></div>
-               <RestartButton 
-                    key={`restartButton`}
-                    onClick={() => handleRestartClick()}
-                />
                <PlayerTurn 
                     key={`turnLabel`}
                     text={playerTurn}
                 />
+               <RestartButton 
+                    key={`restartButton`}
+                    onClick={() => handleRestartClick()}
+                />              
             </div>
             <div display ="inline-block" >
                 <svg viewBox='0 0 1000 800'>

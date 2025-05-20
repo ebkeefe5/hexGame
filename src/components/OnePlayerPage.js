@@ -59,14 +59,15 @@ export default function TwoPlayerPage() {
       }
       setSelectedColor([false, true]);
       moveAI({board:hexagons, AIPlayerNumber:1, difficulty: difficulty})
+      setGameInProgress(true);
       setRedIsNext(false);
     }
 
     const handleSelectRedClick = () => {
       if (gameInProgress)
       {
-            alert("please restart the game to update color");
-            return;
+        alert("please restart the game to update color");
+        return;
       }
       setSelectedColor([true, false]);
     }
