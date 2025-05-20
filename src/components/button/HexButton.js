@@ -5,7 +5,7 @@ export default class HexButton extends React.Component
     render() {
         const { row, col, fill, board_dimension, onClick} = this.props;
 
-        const HEXAGON_EDGE_LENGTH = window.screen.width/(board_dimension*6.0);
+        const HEXAGON_EDGE_LENGTH = window.screen.width/((board_dimension + 1)*5.2);
         const TOP_LEFT_HEXAGON_CENTER_X = 357 - (board_dimension - 2) * HEXAGON_EDGE_LENGTH;
         const TOP_LEFT_HEXAGON_CENTER_Y = HEXAGON_EDGE_LENGTH * 2.5;
 

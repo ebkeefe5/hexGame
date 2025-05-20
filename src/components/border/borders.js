@@ -3,7 +3,7 @@ import { COLORS } from '../../constants/colors.js';
 
 export default function border({ borderNumber, boardDimension })
 {
-    const HEXAGON_EDGE_LENGTH = window.screen.width/(boardDimension*6.0);
+    const HEXAGON_EDGE_LENGTH = window.screen.width/((boardDimension + 1)*5.2);
     const TOP_LEFT_HEXAGON_CENTER_X = 357 - (boardDimension - 2) * HEXAGON_EDGE_LENGTH;
     const TOP_LEFT_HEXAGON_CENTER_Y = HEXAGON_EDGE_LENGTH * 2.5;
 

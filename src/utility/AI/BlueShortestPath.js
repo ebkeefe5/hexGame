@@ -1,19 +1,20 @@
 import React from 'react';
 import PriorityQueue from './PriorityQueue';
 
-export default function getBlueShortestPath(board)
-{    
-    var trackBoard = JSON.parse(JSON.stringify(board)); //indexed as [row][col] or [yPos][xPos]
-    var toVisit = new PriorityQueue(); //min heap of hexagons to explore
-    const size = trackBoard.length;
-    for (var row = 0; row < trackBoard.length; row++)
-    {
-        insertHexagonBlueWithParent(0, row, trackBoard[row][0], 0, toVisit, trackBoard, null);
-    }
-    
-    const directions = [[0, -1], [1, -1], 
-                [-1, 0], [1, 0], 
-                [-1, 1], [0, 1]];
+export default function getBlueShortestPath({ board })
+{
+  console.log(board);
+  var trackBoard = JSON.parse(JSON.stringify(board)); //indexed as [row][col] or [yPos][xPos]
+  var toVisit = new PriorityQueue(); //min heap of hexagons to explore
+  const size = trackBoard.length;
+  for (var row = 0; row < trackBoard.length; row++)
+  {
+    insertHexagonBlueWithParent(0, row, trackBoard[row][0], 0, toVisit, trackBoard, null);
+  }
+  
+  const directions = [[0, -1], [1, -1], 
+            [-1, 0], [1, 0], 
+            [-1, 1], [0, 1]];
 
   while(!toVisit.isEmpty())
   {

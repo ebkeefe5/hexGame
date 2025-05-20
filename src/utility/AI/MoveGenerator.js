@@ -19,19 +19,19 @@ export default function getOpenCentralMoves( { board } )
   pushCentralSpotIfNeeded(board, redOpenSpot, redShortestPath);
 
   var blueShortestPath = getBlueShortestPath({board: board});
-  // var blueOpenSpot = [];
-  // for (let i = 0; i < blueShortestPath.length; i++)
-  // {
-  //   const entry = blueShortestPath[i];
+  var blueOpenSpot = [];
+  for (let i = 0; i < blueShortestPath.length; i++)
+  {
+    const entry = blueShortestPath[i];
 
-  //   if (board[entry.y][entry.x] == 0)
-  //     blueOpenSpot.push(entry);
-  // }
+    if (board[entry.y][entry.x] == 0)
+      blueOpenSpot.push(entry);
+  }
 
-  // pushCentralSpotIfNeeded(board, blueOpenSpot, blueShortestPath);
+  pushCentralSpotIfNeeded(board, blueOpenSpot, blueShortestPath);
 
-  // let allOpenSpots = new Set([...redOpenSpot, ...blueOpenSpot]);
-  return redOpenSpot;
+  let allOpenSpots = new Set([...redOpenSpot, ...blueOpenSpot]);
+  return allOpenSpots;
 }
 
 //if viable spots were found push the most central open spot
