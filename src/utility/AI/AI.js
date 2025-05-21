@@ -17,11 +17,10 @@ export default function moveAI({ board, AIPlayerNumber, difficulty })
   else if (difficulty[1])
     moveAIAtDepth(1, board, AIPlayerNumber);
   else 
-    moveAIAtDepth(4, board, AIPlayerNumber);
+    moveAIAtDepth(3, board, AIPlayerNumber);
 }
 
 function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber) {
-  console.log(boardCopy);
   if (maximizingPlayer) {
     if ((AIPlayerNumber == 1 && checkWinBoardPlayer2({board: boardCopy}))
       || (AIPlayerNumber == 2 && checkWinBoardPlayer1({hexagons: boardCopy})))
@@ -58,10 +57,6 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber)
     }
     return bestValue;
   } else {
-    //TODO only check if game over if at least 11 moves
-    // if ((playerNumber == 1 && checkWinBoardPlayer2(boardCopy))
-    //   || (playerNumber == 2 && checkWinBoardPlayer1(boardCopy)))
-    //   return Infinity;
     let bestValue = Infinity;
     let openMoves = getOpenCentralMoves({board: boardCopy});
     for (let openMove of openMoves){
@@ -87,12 +82,14 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber)
 
 function moveAIAtDepth(depthLevel, board, AIPlayerNumber)
 {
-  var bestMove = {y: 0, x: 0}
   let bestValue = -Infinity;
   let alpha = -Infinity;
   let beta = Infinity;
   let depth = depthLevel; //in order to further increase this depth,
-  let openMoves = getOpenCentralMoves({board:board});
+  let openMoves = Array.from(getOpenCentralMoves({board: board}));
+  const randomIndex = Math.floor(Math.random() * openMoves.length);
+  let bestMove = openMoves[randomIndex];
+  
   for (let openMove of openMoves){
     let row = openMove.y;
     let col = openMove.x;
@@ -113,7 +110,7 @@ function moveAIAtDepth(depthLevel, board, AIPlayerNumber)
 function calculateHeuristic(board, AIPlayerNumber)
 {
   if (AIPlayerNumber == 2)
-    return calculateRedMovesToWin(board) - calculateBlueMovesToWin(board);
+    return - calculateBlueMovesToWin(board);
   else if (AIPlayerNumber == 1)
-    return calculateBlueMovesToWin(board) - calculateRedMovesToWin(board);
+    return - calculateRedMovesToWin(board);
 }
