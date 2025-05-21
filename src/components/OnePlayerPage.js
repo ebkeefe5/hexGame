@@ -47,6 +47,8 @@ export default function TwoPlayerPage() {
           //move red AI, AIPlayerNumber index is different
           moveAI({board:initialHexagons, AIPlayerNumber:1, difficulty: difficulty})
           setRedIsNext(false);
+          if (initialHexagons[CENTER_INDEX][CENTER_INDEX] == -1)
+            initialHexagons[CENTER_INDEX][CENTER_INDEX] = 0;
         }
         setHexagons(initialHexagons);          
     }
@@ -61,6 +63,8 @@ export default function TwoPlayerPage() {
       moveAI({board:hexagons, AIPlayerNumber:1, difficulty: difficulty})
       setGameInProgress(true);
       setRedIsNext(false);
+      if (hexagons[CENTER_INDEX][CENTER_INDEX] == -1)
+        hexagons[CENTER_INDEX][CENTER_INDEX] = 0;
     }
 
     const handleSelectRedClick = () => {

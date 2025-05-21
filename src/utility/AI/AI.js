@@ -17,29 +17,23 @@ export default function moveAI({ board, AIPlayerNumber, difficulty })
   else if (difficulty[1])
     moveAIAtDepth(1, board, AIPlayerNumber);
   else 
-    moveAIAtDepth(3, board, AIPlayerNumber);
+    moveAIAtDepth(4, board, AIPlayerNumber);
 }
 
-function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber) {
-  if (maximizingPlayer) {
-    if ((AIPlayerNumber == 1 && checkWinBoardPlayer2({board: boardCopy}))
-      || (AIPlayerNumber == 2 && checkWinBoardPlayer1({hexagons: boardCopy})))
-      return -Infinity;
-  }
-  else
-  {
-    if ((AIPlayerNumber == 2 && checkWinBoardPlayer2({board: boardCopy}))
-      || (AIPlayerNumber == 1 && checkWinBoardPlayer1({hexagons: boardCopy})))
-      return Infinity;
-  }
-     
+function minMax(boardCopy, depth, alpha, beta, player) {
+  //check for end states
+  if (checkWinBoardPlayer2({board: boardCopy}))
+    return -Infinity;
+  else if (checkWinBoardPlayer1({hexagons: boardCopy}))
+    return Infinity;
+  
+  //terminal depth, calculate heuristic
   if (depth === 0){
-    return calculateHeuristic(boardCopy, AIPlayerNumber);
+    return calculateHeuristic(boardCopy, player);
   }
 
-  if (maximizingPlayer) {
+  if (player == 1) {
     let bestValue = -Infinity;
-    //TODO only check if game over if at least 11 moves
     let openMoves = getOpenCentralMoves({board: boardCopy});
     for (let openMove of openMoves){
       let row = openMove.y;
@@ -47,8 +41,8 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber)
       if (boardCopy[row][col] != 0)
         continue;
       const copy = JSON.parse(JSON.stringify(boardCopy));
-      copy[row][col] = AIPlayerNumber;
-      let value = minMax(copy, depth - 1, false, alpha, beta, AIPlayerNumber);
+      copy[row][col] = player;
+      let value = minMax(copy, depth - 1, alpha, beta, 2);
       bestValue = Math.max(bestValue, value);
       alpha = Math.max(alpha, value);
       if (beta <= alpha) {
@@ -56,7 +50,7 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber)
       }
     }
     return bestValue;
-  } else {
+  } else if (player == 2){
     let bestValue = Infinity;
     let openMoves = getOpenCentralMoves({board: boardCopy});
     for (let openMove of openMoves){
@@ -65,11 +59,8 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber)
         if (boardCopy[row][col] != 0)
           continue;
         const copy = JSON.parse(JSON.stringify(boardCopy));
-        var playerNumber = 1;
-        if (AIPlayerNumber == 1)
-          playerNumber = 2;
-        copy[row][col] = playerNumber;
-        let value = minMax(copy, depth - 1, true, alpha, beta, AIPlayerNumber);
+        copy[row][col] = player;
+        let value = minMax(copy, depth - 1, alpha, beta, 1);
         bestValue = Math.min(bestValue, value);
         beta = Math.min(beta, value);
         if (beta <= alpha) {
@@ -82,10 +73,10 @@ function minMax(boardCopy, depth, maximizingPlayer, alpha, beta, AIPlayerNumber)
 
 function moveAIAtDepth(depthLevel, board, AIPlayerNumber)
 {
-  let bestValue = -Infinity;
+  let minValue = Infinity;
+  let maxValue = -Infinity;
   let alpha = -Infinity;
   let beta = Infinity;
-  let depth = depthLevel; //in order to further increase this depth,
   let openMoves = Array.from(getOpenCentralMoves({board: board}));
   const randomIndex = Math.floor(Math.random() * openMoves.length);
   let bestMove = openMoves[randomIndex];
@@ -97,20 +88,27 @@ function moveAIAtDepth(depthLevel, board, AIPlayerNumber)
       continue;
     const copy = JSON.parse(JSON.stringify(board));
     copy[row][col] = AIPlayerNumber;
-    let value = minMax(copy, depth - 1, false, alpha, beta, AIPlayerNumber);
-    if (value > bestValue)
-     {
-      bestValue = value;
-      bestMove = {y: row, x:col}};
-
+    let nextPlayer = (AIPlayerNumber === 1) ? 2 : 1;
+    let value = minMax(copy, depthLevel - 1, alpha, beta, nextPlayer);
+    //let value = minMax(copy, depthLevel - 1, alpha, beta, AIPlayerNumber);
+    if (AIPlayerNumber == 1 && value > maxValue) //player 1 is maximizing
+    {
+      maxValue = value;
+      bestMove = {y: row, x:col};
+    }
+    else if (AIPlayerNumber == 2 && value < minValue) //player 2 is minimizing
+    {
+      minValue = value;
+      bestMove = {y: row, x:col}; 
+    }
   }
   board[bestMove.y][bestMove.x] = AIPlayerNumber;
 }
 
 function calculateHeuristic(board, AIPlayerNumber)
 {
-  if (AIPlayerNumber == 2)
-    return - calculateBlueMovesToWin(board);
-  else if (AIPlayerNumber == 1)
-    return - calculateRedMovesToWin(board);
+  if (AIPlayerNumber == 2) //player 2 is minimizing moves to wins
+    return calculateBlueMovesToWin(board) - calculateRedMovesToWin(board); 
+  else //player 1 is maximizing inverse of moves to win
+    return calculateBlueMovesToWin(board) - calculateRedMovesToWin(board); 
 }
