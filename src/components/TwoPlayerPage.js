@@ -131,7 +131,7 @@ export default function TwoPlayerPage() {
     return (
         <div className="parent-container">
             <div className="spacerColumn">
-               <h3> Select Board Size</h3>
+               <h4> Select Board Size</h4>
                <SelectNumberButton 
                     key={`5-size`}
                     label={5}

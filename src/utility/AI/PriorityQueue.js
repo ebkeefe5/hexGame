@@ -11,8 +11,8 @@ export default class PriorityQueue {
     if (a.stepsFromStart !== b.stepsFromStart) {
       return a.stepsFromStart < b.stepsFromStart;
     } else {
-      var aCentrality = Math.abs(5 - a.xPos) + Math.abs(5 - a.yPos);
-      var bCentrality = Math.abs(5 - b.xPos) + Math.abs(5 - b.yPos);
+      var aCentrality = Math.abs(3 - a.xPos) + Math.abs(3 - a.yPos);
+      var bCentrality = Math.abs(3 - b.xPos) + Math.abs(3 - b.yPos);
       return aCentrality < bCentrality;
     }
   }) {
