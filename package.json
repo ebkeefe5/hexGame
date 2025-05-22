@@ -1,8 +1,11 @@
 {
   "name": "react.dev",
   "version": "0.0.0",
+  "homepage": "https://ebkeefe5.github.io/hexGame",
   "main": "/src/index.js",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
