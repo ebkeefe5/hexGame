@@ -1,6 +1,7 @@
 import React from 'react';
 
 export default function HomePage() {
+  const publicUrl = process.env.PUBLIC_URL;
   return (
     <div style={{ margin: 'auto', width:'30%', minWidth:'300px' }}>
       <h2 style = {{marginLeft:'5%'}}>Play Hex Free</h2>
@@ -10,7 +11,7 @@ export default function HomePage() {
       <svg viewBox='0 0 1000 800'>    
         {/* Red Board */}
         <image
-          href={`/images/winningRedBoard.PNG`} // Use href for SVG image
+          href={`${publicUrl}/images/winningRedBoard.PNG`} // Use href for SVG image
           x="0"          // X-coordinate within the SVG viewBox
           y="0"          // Y-coordinate within the SVG viewBox
           width="500"    // Width of the image within the SVG viewBox
@@ -20,7 +21,7 @@ export default function HomePage() {
 
         {/* Blue Board */}
         <image
-          href={`/images/winningBlueBoard.PNG`}
+          href={`${publicUrl}/images/winningBlueBoard.PNG`}
           x="500"        // X-coordinate to place it next to the first image
           y="0"
           width="500"
