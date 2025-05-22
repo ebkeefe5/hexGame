@@ -3,9 +3,9 @@ import { COLORS } from '../../constants/colors.js';
 
 export default function border({ borderNumber, boardDimension })
 {
-    const HEXAGON_EDGE_LENGTH = window.screen.width/((boardDimension + 1)*5.2);
+    const HEXAGON_EDGE_LENGTH = 350/(boardDimension + 1);
     const TOP_LEFT_HEXAGON_CENTER_X = 357 - (boardDimension - 2) * HEXAGON_EDGE_LENGTH;
-    const TOP_LEFT_HEXAGON_CENTER_Y = HEXAGON_EDGE_LENGTH * 2.5;
+    const TOP_LEFT_HEXAGON_CENTER_Y = HEXAGON_EDGE_LENGTH * 1.5 + 25;
 
     const x1 = TOP_LEFT_HEXAGON_CENTER_X - Math.sqrt(3)*HEXAGON_EDGE_LENGTH/2;
     const x2 = TOP_LEFT_HEXAGON_CENTER_X - Math.sqrt(3)*HEXAGON_EDGE_LENGTH;
