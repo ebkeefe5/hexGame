@@ -1,10 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
-import ColorButton from './button/ColorButton.js';
+import ColorButton from './button/ColorButton';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
-import  border from './border/borders.js';
+import  border from './border/borders';
 import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
 import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
 import moveAI from '../utility/AI/AI.js';

@@ -4,7 +4,7 @@ import HexButton from './button/HexButton';
 import SelectNumberButton from './button/SelectNumberButton.js';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
-import  border from './border/borders.js';
+import  border from './border/borders';
 import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
 import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
