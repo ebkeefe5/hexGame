@@ -1,19 +1,19 @@
 import React from 'react';
 import { useState } from 'react';
 import HexButton from './button/HexButton';
-import SelectNumberButton from './button/SelectNumberButton.js';
-import ColorButton from './button/ColorButton.js';
+import SelectNumberButton from './button/SelectNumberButton';
+import ColorButton from './button/ColorButton';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
-import  border from './border/borders.js';
-import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
-import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
-import moveAI from '../utility/AI/AI.js';
-import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
+import border from './border/borders';
+import checkWinBoardPlayer1  from '.././utility/RedGameOverCheck';
+import checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck';
+import moveAI from '../utility/AI/AI';
+import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
 
 export default function TwoPlayerPage() {
-    const create2DArray = (dimension) => {
-        const array2D = [];
+    const create2DArray = (dimension: number) => {
+        const array2D: number[][] = [];
         for (let i = 0; i < dimension; i++) {
             array2D.push(Array(dimension).fill(0)); // Create a new row filled with 0s
         }
@@ -76,7 +76,7 @@ export default function TwoPlayerPage() {
       setSelectedColor([true, false]);
     }
 
-    const handleBoardSizeClick = (boardDimension) => {
+    const handleBoardSizeClick = (boardDimension: number) => {
         if (gameInProgress)
         {
             alert("please restart the game to update board size");
@@ -103,7 +103,7 @@ export default function TwoPlayerPage() {
             setSeletedBoardSize([false, false, false, true]);
     }
 
-    const handleDifficultyClick = (difficulty) => {
+    const handleDifficultyClick = (difficulty: number) => {
         if (gameInProgress)
         {
             alert("please restart the game to update difficulty");
@@ -118,7 +118,7 @@ export default function TwoPlayerPage() {
             selectDifficulty([false, false, true]);
     }
 
-    const handleHexagonClick = (i, j) => {
+    const handleHexagonClick = (i: number, j: number) => {
         if (hexagons[i][j] != 0 
           || selectedColor[0] == true && !redIsNext
           || selectedColor[1] == true && redIsNext
@@ -202,25 +202,25 @@ export default function TwoPlayerPage() {
                <h4> Select Board Size</h4>
                <SelectNumberButton 
                     key={`5-size`}
-                    label={5}
+                    label={'5'}
                     selected={selectedBoardSize[0]}
                     onClick={() => handleBoardSizeClick(5)}
                 />         
                 <SelectNumberButton 
                     key={`7-size`}
-                    label={7}
+                    label={'7'}
                     selected={selectedBoardSize[1]}
                     onClick={() => handleBoardSizeClick(7)}
                 />   
                 <SelectNumberButton 
                     key={`9-size`}
-                    label={9}
+                    label={'9'}
                     selected={selectedBoardSize[2]}
                     onClick={() => handleBoardSizeClick(9)}
                 />      
                 <SelectNumberButton 
                     key={`11-size`}
-                    label={11}
+                    label={'11'}
                     selected={selectedBoardSize[3]}
                     onClick={() => handleBoardSizeClick(11)}
                 />         
@@ -242,19 +242,19 @@ export default function TwoPlayerPage() {
                <h4> Select Difficulty</h4>  
               <SelectNumberButton 
                     key={`1-difficulty`}
-                    label={1}
+                    label={'1'}
                     selected={difficulty[0]}
                     onClick={() => handleDifficultyClick(1)}
               />      
               <SelectNumberButton 
                   key={`2-difficulty`}
-                  label={2}
+                  label={'2'}
                   selected={difficulty[1]}
                   onClick={() => handleDifficultyClick(2)}
               />      
               <SelectNumberButton 
                   key={`3-difficulty`}
-                  label={3}
+                  label={'3'}
                   selected={difficulty[2]}
                   onClick={() => handleDifficultyClick(3)}
               />      
@@ -268,7 +268,7 @@ export default function TwoPlayerPage() {
                 />
                
             </div>
-            <div display ="inline-block" >
+            <div >
                 <svg viewBox='0 0 1000 800'>
                     {border({borderNumber:0, boardDimension:twoPlayerBoardDimension}) }
                     {border({borderNumber:1, boardDimension:twoPlayerBoardDimension}) }

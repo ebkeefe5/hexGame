@@ -1,0 +1,14 @@
+    {
+      "compilerOptions": {
+        "jsx": "react-jsx", // or "react" for older versions
+        "outDir": "./dist",
+        "allowJs": true,
+        "target": "es2016",
+        "module": "commonjs",
+        "strict": true,
+        "esModuleInterop": true
+      },
+      "include": [
+        "./src/**/*"
+      ]
+    }
