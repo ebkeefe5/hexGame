@@ -80,6 +80,7 @@ function App(): JSX.Element {
         label="Puzzle"
         onClick={handleGoToPuzzle}
         selected={selectedMenuItem[2]}
+        pushRight={false}
       />
       <hr />
       {contentToDisplay}

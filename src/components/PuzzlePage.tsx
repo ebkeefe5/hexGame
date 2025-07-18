@@ -11,13 +11,14 @@ import moveAI from '../utility/AI/AI.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors.js';
 
 export default function PuzzlePage() {
-    const create2DArray = (dimension) => {
-        const array2D = [];
+    const create2DArray = (dimension: number): number[][] => {
+        const array2D: number[][] = [];
         for (let i = 0; i < dimension; i++) {
-            array2D.push(Array(dimension).fill(0)); // Create a new row filled with 0s
+            array2D.push(Array(dimension).fill(0));
         }
         return array2D;
     };
+
     
     const difficulty = [false, false, true];
     const [gameInProgress, setGameInProgress] = useState(false);
@@ -70,7 +71,7 @@ export default function PuzzlePage() {
       setSelectedColor([true, false]);
     }
 
-    const handleHexagonClick = (i, j) => {
+    const handleHexagonClick = (i: number, j: number) => {
         if (hexagons[i][j] != 0 
           || selectedColor[0] == true && !redIsNext
           || selectedColor[1] == true && redIsNext
@@ -169,7 +170,7 @@ export default function PuzzlePage() {
                 />
                
             </div>
-            <div display ="inline-block" >
+            <div>
                 <svg viewBox='0 0 1000 800'>
                     {border({borderNumber:0, boardDimension:twoPlayerBoardDimension}) }
                     {border({borderNumber:1, boardDimension:twoPlayerBoardDimension}) }
