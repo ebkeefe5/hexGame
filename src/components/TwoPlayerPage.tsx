@@ -5,8 +5,8 @@ import SelectNumberButton from './button/SelectNumberButton';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
 import  border from './border/borders';
-import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
-import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
+import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck';
+import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
 
 export default function TwoPlayerPage() {

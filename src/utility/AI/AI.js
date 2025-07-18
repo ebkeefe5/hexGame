@@ -1,7 +1,7 @@
 import React from 'react';
 import getOpenCentralMoves from './MoveGenerator';
-import checkWinBoardPlayer1  from '../RedGameOverCheck.js';
-import checkWinBoardPlayer2  from '../BlueGameOverCheck.js';
+import checkWinBoardPlayer1  from '../RedGameOverCheck';
+import checkWinBoardPlayer2  from '../BlueGameOverCheck';
 import calculateRedMovesToWin from './Heuristic';
 import calculateBlueMovesToWin from './BlueHeuristic';
 

@@ -5,9 +5,9 @@ import SelectNumberButton from './button/SelectNumberButton';
 import ColorButton from './button/ColorButton';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
-import  border from './border/borders';
-import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck.js';
-import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck.js';
+import border from './border/borders';
+import checkWinBoardPlayer1  from '.././utility/RedGameOverCheck';
+import checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck';
 import moveAI from '../utility/AI/AI.js';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
 
