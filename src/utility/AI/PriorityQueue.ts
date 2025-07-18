@@ -1,23 +1,22 @@
-//slightly modified version of 
-//https://stackoverflow.com/questions/42919469/efficient-way-to-implement-priority-queue-in-javascript
+type Hexagon = {
+  xPos: number;
+  yPos: number;
+  stepsFromStart: number;
+  parent: Hexagon | null;
+};
 
 const topIndex = 0;
 const parent = (i: number): number => ((i + 1) >>> 1) - 1;
 const left = (i: number): number => (i << 1) + 1;
 const right = (i: number): number => (i + 1) << 1;
 
-type QueueNode = {
-  stepsFromStart: number;
-  xPos: number;
-  yPos: number;
-};
-
 export default class PriorityQueue {
-  private _heap: QueueNode[];
-  private _comparator: (a: QueueNode, b: QueueNode) => boolean;
+  private _heap: Hexagon[];
+  private _comparator: (a: Hexagon, b: Hexagon) => boolean;
 
-  constructor(
-    comparator: (a: QueueNode, b: QueueNode) => boolean = (a, b) => {
+  constructor() {
+    this._heap = [];
+    this._comparator = (a, b) => {
       if (a.stepsFromStart !== b.stepsFromStart) {
         return a.stepsFromStart < b.stepsFromStart;
       } else {
@@ -25,10 +24,7 @@ export default class PriorityQueue {
         const bCentrality = Math.abs(3 - b.xPos) + Math.abs(3 - b.yPos);
         return aCentrality < bCentrality;
       }
-    }
-  ) {
-    this._heap = [];
-    this._comparator = comparator;
+    };
   }
 
   size(): number {
@@ -39,16 +35,16 @@ export default class PriorityQueue {
     return this.size() === 0;
   }
 
-  peek(): QueueNode {
+  peek(): Hexagon {
     return this._heap[topIndex];
   }
 
-  push(value: QueueNode): void {
+  push(value: Hexagon): void {
     this._heap.push(value);
     this._siftUp();
   }
 
-  pop(): QueueNode {
+  pop(): Hexagon {
     const poppedValue = this.peek();
     const bottom = this.size() - 1;
     if (bottom > topIndex) {
@@ -59,7 +55,7 @@ export default class PriorityQueue {
     return poppedValue;
   }
 
-  replace(value: QueueNode): QueueNode {
+  replace(value: Hexagon): Hexagon {
     const replacedValue = this.peek();
     this._heap[topIndex] = value;
     this._siftDown();

@@ -2,8 +2,8 @@ import React from 'react';
 import getOpenCentralMoves from './MoveGenerator';
 import checkWinBoardPlayer1  from '../RedGameOverCheck.js';
 import checkWinBoardPlayer2  from '../BlueGameOverCheck.js';
-import calculateRedMovesToWin from './Heuristic.js';
-import calculateBlueMovesToWin from './BlueHeuristic.js';
+import calculateRedMovesToWin from './Heuristic';
+import calculateBlueMovesToWin from './BlueHeuristic';
 
 export default function moveAI({ board, AIPlayerNumber, difficulty })
 {

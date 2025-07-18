@@ -1,7 +1,17 @@
 import React from 'react';
 import PriorityQueue from './PriorityQueue';
 
-export default function getRedShortestPath( { board } )
+type Board = number[][];
+type Position = { x: number; y: number };
+
+type Hexagon = {
+  xPos: number;
+  yPos: number;
+  stepsFromStart: number;
+  parent: Hexagon | null;
+};
+
+export default function getBlueShortestPath({ board }: { board: Board }): Position[] | null {
 {
   var trackBoard = JSON.parse(JSON.stringify(board)); //indexed as [row][col] or [yPos][xPos]
   const toVisit = new PriorityQueue(); //min heap of hexagons to explore
@@ -35,7 +45,7 @@ export default function getRedShortestPath( { board } )
   return null;
 }
 
-function backTrack(hex)
+function backTrack(hex: Hexagon): Position[] 
 {
   var path = [{x:hex.xPos, y:hex.yPos}];
   var current = hex;
@@ -46,8 +56,15 @@ function backTrack(hex)
   return path;   
 }
 
-function insertHexagonRedWithParent(xPos, yPos, value, steps, toVisit, trackBoard, parent)
-{
+function insertHexagonRedWithParent(
+  xPos: number,
+  yPos: number,
+  value: number,
+  steps: number,
+  toVisit: PriorityQueue,
+  trackBoard: Board,
+  parent: Hexagon | null
+): void {
   if (value == -1 || value == 2) //red cannot move where blue has moved or on an illegal move
     return;
   else if (value == 0)
@@ -60,4 +77,5 @@ function insertHexagonRedWithParent(xPos, yPos, value, steps, toVisit, trackBoar
     trackBoard[yPos][xPos] = -1
     toVisit.push({xPos: xPos, yPos: yPos, stepsFromStart: steps, parent:parent});
   }
+}
 } 
