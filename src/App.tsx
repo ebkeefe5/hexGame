@@ -22,22 +22,27 @@ function RotatingHeadingSimple({ text }: RotatingHeadingProps): JSX.Element {
 }
 
 function App(): JSX.Element {
-  const [currentPage, setCurrentPage] = useState<Page>('home');
-  const [selectedMenuItem, setSelectedMenuItem] = useState<boolean[]>([false, false, false]);
+  const [currentPage, setCurrentPage] = useState<Page>('onePlayer');
+  const [selectedMenuItem, setSelectedMenuItem] = useState<boolean[]>([true, false, false, false]);
 
   const handleGoToOnePlayer = () => {
     setCurrentPage('onePlayer');
-    setSelectedMenuItem([true, false, false]);
+    setSelectedMenuItem([true, false, false, false]);
   };
 
   const handleGoToTwoPlayer = () => {
     setCurrentPage('twoPlayer');
-    setSelectedMenuItem([false, true, false]);
+    setSelectedMenuItem([false, true, false, false]);
   };
 
   const handleGoToPuzzle = () => {
     setCurrentPage('puzzle');
-    setSelectedMenuItem([false, false, true]);
+    setSelectedMenuItem([false, false, true, false]);
+  };
+
+  const handleGoToRules = () => {
+    setCurrentPage('home');
+    setSelectedMenuItem([false, false, false, true]);
   };
 
   let contentToDisplay: JSX.Element;
@@ -80,7 +85,14 @@ function App(): JSX.Element {
         label="Puzzle"
         onClick={handleGoToPuzzle}
         selected={selectedMenuItem[2]}
-        pushRight={false}
+        pushRight={true}
+      />
+      <MenuButton 
+        key="rules"
+        label="Rules"
+        onClick={handleGoToRules}
+        selected={selectedMenuItem[3]}
+        pushRight={true}
       />
       <hr />
       {contentToDisplay}

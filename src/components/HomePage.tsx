@@ -5,7 +5,6 @@ export default function HomePage(): JSX.Element {
 
   return (
     <div style={{ margin: 'auto', width: '30%', minWidth: '300px' }}>
-      <h2 style={{ marginLeft: '5%' }}>Play Hex Free</h2>
       <p style={{ marginLeft: '5%' }}>
         Hex is an alternating turn board game. Red has the first move, but may not move in the center on the first turn.
         Red wins by connecting the bottom and top of the board with an unbroken chain of red hexagons. Blue wins by
