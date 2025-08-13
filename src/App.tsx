@@ -92,7 +92,7 @@ function App(): JSX.Element {
         label="Rules"
         onClick={handleGoToRules}
         selected={selectedMenuItem[3]}
-        pushRight={true}
+        pushRight={false}
       />
       <hr />
       {contentToDisplay}

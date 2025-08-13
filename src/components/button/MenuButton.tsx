@@ -19,7 +19,7 @@ export default class MenuButton extends React.Component<MenuButtonProps> {
 
     let marginRightPercent = '0%';
     if (pushRight) {
-      marginRightPercent = '6%';
+      marginRightPercent = '5%';
     }
 
     return (
