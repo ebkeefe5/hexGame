@@ -11,7 +11,7 @@ export default class ColorButton extends React.Component<ColorButtonProps> {
   render(): JSX.Element {
     const { onClick, label, selected, red } = this.props;
 
-    let backgroundColor = '#F0F0F0';
+    let backgroundColor = '#D3D3D3';
     if (selected) {
       backgroundColor = red ? '#E42217' : '#7690ac';
     }

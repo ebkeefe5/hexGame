@@ -14,7 +14,7 @@ export default class MenuButton extends React.Component<MenuButtonProps> {
 
     let backgroundColor = '#A9A9A9';
     if (selected) {
-      backgroundColor = 'green';
+      backgroundColor = 'gray';
     }
 
     let marginRightPercent = '0%';

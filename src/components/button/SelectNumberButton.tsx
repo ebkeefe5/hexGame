@@ -11,9 +11,9 @@ export default class SelectNumberButton extends React.Component<SelectNumberButt
   render(): JSX.Element {
     const { onClick, label, selected } = this.props;
 
-    let backgroundColor = '#F0F0F0';
+    let backgroundColor = '#D3D3D3';
     if (selected) {
-      backgroundColor = 'green';
+      backgroundColor = 'gray';
     }
 
     return (
