@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import { io } from "socket.io-client";
 import HexButton from './button/HexButton';
 import SelectNumberButton from './button/SelectNumberButton';
 import RestartButton from './button/RestartButton';
@@ -9,17 +10,19 @@ import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck';
 import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
 
+const ioClient = io('http://localhost:3000');
+
 export default function TwoPlayerPage() {
     const create2DArray = (dimension: number) => {
         const array2D: number[][] = [];
         for (let i = 0; i < dimension; i++) {
-            array2D.push(Array(dimension).fill(0)); // Create a new row filled with 0s
+            array2D.push(Array(dimension).fill(0)); 
         }
         return array2D;
     };
-    
+
+    const twoPlayerBoardDimension = 11;
     const [gameInProgress, setGameInProgress] = useState(false);
-    const [twoPlayerBoardDimension, setTwoPlayerBoardDimension] = useState(5);
     const [selectedBoardSize, setSeletedBoardSize] = useState([true, false, false, false])
     const CENTER_INDEX = Math.floor(twoPlayerBoardDimension/2);
     const [hexagons, setHexagons] = useState(() => {
@@ -47,7 +50,6 @@ export default function TwoPlayerPage() {
             alert("please restart the game to update board size");
             return;
         }
-        setTwoPlayerBoardDimension(boardDimension)
         setGameOver(false);
         setRedIsNext(true);
         setPlayerTurn("Red's Move!")
