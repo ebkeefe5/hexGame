@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { io } from "socket.io-client";
 import HexButton from './button/HexButton';
-import SelectNumberButton from './button/SelectNumberButton';
 import RestartButton from './button/RestartButton';
 import PlayerTurn from './labels/PlayerTurn';
 import  border from './border/borders';
@@ -23,7 +22,6 @@ export default function TwoPlayerPage() {
 
     const twoPlayerBoardDimension = 11;
     const [gameInProgress, setGameInProgress] = useState(false);
-    const [selectedBoardSize, setSeletedBoardSize] = useState([true, false, false, false])
     const CENTER_INDEX = Math.floor(twoPlayerBoardDimension/2);
     const [hexagons, setHexagons] = useState(() => {
         const initialHexagons = create2DArray(twoPlayerBoardDimension);
@@ -33,42 +31,6 @@ export default function TwoPlayerPage() {
     const [redIsNext, setRedIsNext] = useState(true);
     const [gameOver, setGameOver] = useState(false);
     const [playerTurn, setPlayerTurn] = useState("Red's Move!");
-
-    const handleRestartClick = () => {
-        setGameInProgress(false);
-        setGameOver(false);
-        setRedIsNext(true);
-        setPlayerTurn("Red's Move!")
-        const initialHexagons = create2DArray(twoPlayerBoardDimension);
-        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
-        setHexagons(initialHexagons);
-    }
-
-    const handleBoardSizeClick = (boardDimension: number) => {
-        if (gameInProgress)
-        {
-            alert("please restart the game to update board size");
-            return;
-        }
-        setGameOver(false);
-        setRedIsNext(true);
-        setPlayerTurn("Red's Move!")
-        //use boardDimension variable for size since
-        //twoPlayerBoardDimension takes another cycle to actually update
-        const initialHexagons = create2DArray(boardDimension); 
-        const CENTER_INDEX = Math.floor(boardDimension/2);
-        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
-        setHexagons(initialHexagons);
-
-        if (boardDimension == 5)
-            setSeletedBoardSize([true, false, false, false]);
-        else if (boardDimension == 7)
-            setSeletedBoardSize([false, true, false, false]);
-        else if (boardDimension == 9)
-            setSeletedBoardSize([false, false, true, false]);
-        else 
-            setSeletedBoardSize([false, false, false, true]);
-    }
 
     const handleHexagonClick = (i: number, j: number) => {
         if (hexagons[i][j] != 0 || gameOver)
@@ -130,17 +92,15 @@ export default function TwoPlayerPage() {
         return hexagonComponents;
     }
 
-    return (
+    if (false)
+    {
+        return (
         <div className="parent-container">
             <div className="spacerColumn">           
                <PlayerTurn 
                     key={`turnLabel`}
                     text={playerTurn}
-                />
-               <RestartButton 
-                    key={`restartButton`}
-                    onClick={() => handleRestartClick()}
-                />              
+                /> 
             </div>
             <div >
                 <svg viewBox='0 0 1000 800'>
@@ -153,4 +113,18 @@ export default function TwoPlayerPage() {
             </div>
         </div>
     );
+    }
+    else
+    {
+        return (
+        <div>
+	        <button type="submit" id="newGameButton">Create New Game</button>
+	           <div><h3>OR</h3></div>
+	           <div>
+	              <input type="text" placeholder="Enter Game Code" id="gameCodeInput"/>
+	            </div>
+	            <button type="submit" id="joinGameButton">Join Game</button>
+		</div>
+    );
+    }  
 }
