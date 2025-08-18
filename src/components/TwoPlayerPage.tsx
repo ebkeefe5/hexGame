@@ -11,6 +11,13 @@ import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
 
 const ioClient = io('http://localhost:3000');
 
+// ioClient.on("init", (playerNumber) => handleInit(playerNumber));
+// ioClient.on("update", (gameState) => updateGameState(gameState));
+// ioClient.on('gameCode', (gameCode) => handleGameCode(gameCode));
+// ioClient.on('unknownCode', handleUnknownCode);
+// ioClient.on('disconnected', handleDisconnected);
+// ioClient.on('tooManyPlayers', handleTooManyPlayers);
+
 export default function TwoPlayerPage() {
     const create2DArray = (dimension: number) => {
         const array2D: number[][] = [];
@@ -31,6 +38,16 @@ export default function TwoPlayerPage() {
     const [redIsNext, setRedIsNext] = useState(true);
     const [gameOver, setGameOver] = useState(false);
     const [playerTurn, setPlayerTurn] = useState("Red's Move!");
+    const [gameCode, setGameCode] = useState("");
+
+    const handleStartGame = () => {
+        setGameInProgress(true);
+    }
+
+    const handleJoinGame = () => {
+        console.log("the client is wanting to join a game with the following game code");
+        console.log(gameCode);
+    }
 
     const handleHexagonClick = (i: number, j: number) => {
         if (hexagons[i][j] != 0 || gameOver)
@@ -92,7 +109,7 @@ export default function TwoPlayerPage() {
         return hexagonComponents;
     }
 
-    if (false)
+    if (gameInProgress)
     {
         return (
         <div className="parent-container">
@@ -118,12 +135,12 @@ export default function TwoPlayerPage() {
     {
         return (
         <div>
-	        <button type="submit" id="newGameButton">Create New Game</button>
+	        <button type="submit" id="newGameButton" onClick={handleStartGame}>Create New Game</button>
 	           <div><h3>OR</h3></div>
 	           <div>
-	              <input type="text" placeholder="Enter Game Code" id="gameCodeInput"/>
+	              <input type="text" placeholder="Enter Game Code" onChange={(e) => setGameCode(e.target.value)}/>
 	            </div>
-	            <button type="submit" id="joinGameButton">Join Game</button>
+	            <button type="submit" id="joinGameButton" onClick={handleJoinGame}>Join Game</button>
 		</div>
     );
     }  
