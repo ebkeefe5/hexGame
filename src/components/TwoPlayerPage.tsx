@@ -3,26 +3,31 @@ import { io, Socket } from "socket.io-client";
 import HexButton from './button/HexButton';
 import PlayerTurn from './labels/PlayerTurn';
 import  border from './border/borders';
-import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck';
-import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
 
-type GameState = {
-    gameInProgress: boolean;
+type PageState = {
+    showGameScreen: boolean;
     hexagons: number[][];
 }
 
-export default class TwoPlayerPage extends Component<{}, GameState>{
+type GameState = {
+    data: {
+        gameBoard: number[][];
+        turn: number;
+    }
+}
+
+export default class TwoPlayerPage extends Component<{}, PageState>{
     private readonly twoPlayerBoardDimension = 11;
     private readonly CENTER_INDEX = Math.floor(this.twoPlayerBoardDimension/2);
     redIsNext = true;
+    turn = 1;
     gameOver = false;
     gameCode = "";
     playerTurn = "Red's Move";
     playerNumber = 1;
     private ioClient: Socket | null = null;
     
-
     componentDidMount(): void {
         this.ioClient = io('http://localhost:3000');
 
@@ -42,52 +47,65 @@ export default class TwoPlayerPage extends Component<{}, GameState>{
     
     constructor(props: {}) {
         super(props);
-        
+        this.reset();
+    } 
+
+    reset = () => {
         const initialHexagons = this.create2DArray(this.twoPlayerBoardDimension);
         initialHexagons[this.CENTER_INDEX][this.CENTER_INDEX] = -1;
         
         this.state = {
-            gameInProgress: false,
+            showGameScreen: false,
             hexagons: initialHexagons,
         };
-    } 
-
-    handleInit = (playerNumber: number) => {
-        //start a new game with player number as number
     }
 
-    updateGameState = (gameState: number[][]) => {
-        //refactor to be object 
-        this.setState({hexagons: gameState});
+    handleInit = (playerNumber: number) => {
+        playerNumber = playerNumber;
+        this.setState({showGameScreen: true});
+    }
+
+    updateGameState = (gameState: GameState) => {
+        this.turn = gameState.data.turn;
+        console.log("updating the game state");
+        console.log(gameState);
+        this.setState({hexagons: gameState.data.gameBoard});
     }
 
     handleGameCode = (gameCode: number) => {
-        //create a new game with the game code
+        console.log("new game started with game code: ")
+        console.log(gameCode);
     }
 
     handleUnknownCode = () => {
-        //handle the unkown game code
+        alert("unknown game code");
+        this.reset();
     }
 
     handleDisconnected = () => {
-        //handle being disconnected
+        alert("opponent disconnected");
+        this.reset();
     }
 
     handleTooManyPlayers = () => {
-        //handle too many players
+        alert("too many players");
+        this.reset();
     }
 
-    handleStartGame = () => {
-        this.setState({ gameInProgress: true }); 
+    handleCreateNewGame = () => {
+        if (this.ioClient == null)
+            return;
+        this.ioClient.emit('newGame');
     }
 
     setGameCode = (gameCode: string) => {
         this.gameCode = gameCode;
-        
     }
 
     handleJoinGame = () => {
-        console.log(this.gameCode);
+        if (this.ioClient == null)
+            return;
+        this.ioClient.emit('joinGame', this.gameCode);
     }
     
     create2DArray = (dimension: number) => {
@@ -99,43 +117,11 @@ export default class TwoPlayerPage extends Component<{}, GameState>{
     };
 
     
-    handleHexagonClick = (i: number, j: number) => {
-        if (this.state.hexagons[i][j] != 0 || this.gameOver)
-            return
-
-        this.setState({ gameInProgress: true });
-
-        const nextHexagons = JSON.parse(JSON.stringify(this.state.hexagons));
-
-        if (nextHexagons[this.CENTER_INDEX][this.CENTER_INDEX] == -1)
-            nextHexagons[this.CENTER_INDEX][this.CENTER_INDEX] = 0;
-        
-        if (this.redIsNext){
-            nextHexagons[i][j] = 1;
-            if (checkWinBoardPlayer1({hexagons:nextHexagons}))
-            {
-                this.gameOver = true;
-                this.playerTurn = "Red wins!";
-            }      
-            else 
-            {
-                this.playerTurn = "Blue's move!";
-            }      
-        }         
-        else 
-        {            
-            nextHexagons[i][j] = 2;  
-            if (checkWinBoardPlayer2({board:nextHexagons}))
-            {
-                this.gameOver = true;
-                this.playerTurn = "Blue wins!";  
-            }
-            else 
-                this.playerTurn = "Red's move!";
-        }      
-        
-        this.redIsNext = !this.redIsNext;
-        this.setState({ hexagons: nextHexagons }); 
+    handleHexagonClick = (row: number, col: number) => {
+        console.log("clicked: " + row + " " + col);
+        if (this.ioClient == null)
+            return;
+        this.ioClient.emit('hexagonClicked', {row, col})
     };
 
     renderHexagons = () => {
@@ -164,7 +150,7 @@ export default class TwoPlayerPage extends Component<{}, GameState>{
     render()
     {
         
-        if (this.state.gameInProgress)
+        if (this.state.showGameScreen)
         {
             return (
                 <div className="parent-container">
@@ -190,7 +176,7 @@ export default class TwoPlayerPage extends Component<{}, GameState>{
         {
             return (
                 <div>
-                    <button type="submit" id="newGameButton" onClick={this.handleStartGame}>Create New Game</button>
+                    <button type="submit" id="newGameButton" onClick={this.handleCreateNewGame}>Create New Game</button>
                     <div><h3>OR</h3></div>
                     <div>
                         <input type="text" placeholder="Enter Game Code" onChange={(e) => this.setGameCode(e.target.value)}/>
