@@ -176,12 +176,13 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
         {
             return (
                 <div>
-                    <button type="submit" id="newGameButton" onClick={this.handleCreateNewGame}>Create New Game</button>
+                    <div className = "spacerRow"></div>
+                    <button type="submit" onClick={this.handleCreateNewGame} style={{ backgroundColor: 'green', color:'white', padding: '10px 20px', border: 'none', borderRadius: '5px'}}>Create New Game</button>
                     <div><h3>OR</h3></div>
                     <div>
                         <input type="text" placeholder="Enter Game Code" onChange={(e) => this.setGameCode(e.target.value)}/>
                         </div>
-                        <button type="submit" id="joinGameButton" onClick={this.handleJoinGame}>Join Game</button>
+                        <button type="submit" id="joinGameButton" onClick={this.handleJoinGame} style={{ padding: '10px 20px', border: 'none', borderRadius: '5px'}}>Join Game</button>
                 </div>
             );
         }  

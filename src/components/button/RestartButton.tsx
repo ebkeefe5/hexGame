@@ -10,7 +10,7 @@ export default class RestartButton extends React.Component<RestartButtonProps> {
 
     return (
       <button
-        style={{ padding: '10px 22px' }}
+        style={{ padding: '10px 20px', borderRadius: '5px'}}
         type="submit"
         className="sideBarButton"
         onClick={onClick}
