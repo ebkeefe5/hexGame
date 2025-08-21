@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import { io, Socket } from "socket.io-client";
 import HexButton from './button/HexButton';
 import PlayerTurn from './labels/PlayerTurn';
+import ColorButton from './button/ColorButton';
 import  border from './border/borders';
 import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
 
@@ -24,8 +25,9 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
     turn = 1;
     gameOver = false;
     gameCode = "";
-    playerTurn = "Red's Move";
+    playerTurn = "Your Move!";
     playerNumber = 1;
+    joinCode = "";
     private ioClient: Socket | null = null;
     
     componentDidMount(): void {
@@ -61,20 +63,28 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
     }
 
     handleInit = (playerNumber: number) => {
-        playerNumber = playerNumber;
+        this.playerNumber = playerNumber;
         this.setState({showGameScreen: true});
     }
 
     updateGameState = (gameState: GameState) => {
         this.turn = gameState.data.turn;
-        console.log("updating the game state");
-        console.log(gameState);
+        if (this.turn == this.playerNumber)
+            this.playerTurn = "Your Move!";
+        else
+        {
+            if (this.turn == 3)
+                this.playerTurn = "Game Over: Red Wins!";
+            else if (this.turn == 4)
+                this.playerTurn = "Game Over: Blue Wins!";
+            else 
+                this.playerTurn = "Opponent's Move!";
+        }
         this.setState({hexagons: gameState.data.gameBoard});
     }
 
-    handleGameCode = (gameCode: number) => {
-        console.log("new game started with game code: ")
-        console.log(gameCode);
+    handleGameCode = (gameCode: string) => {
+       this.joinCode = gameCode;
     }
 
     handleUnknownCode = () => {
@@ -118,7 +128,6 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
 
     
     handleHexagonClick = (row: number, col: number) => {
-        console.log("clicked: " + row + " " + col);
         if (this.ioClient == null)
             return;
         this.ioClient.emit('hexagonClicked', {row, col})
@@ -147,6 +156,17 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
         return hexagonComponents;
     }
 
+    getJoinCodeLabel = () => {
+        return "Join Code: " + this.joinCode;
+    }
+
+     getColorLabel = () => {
+        var playerColor = "Red";
+        if (this.playerNumber == 2)
+            playerColor = "Blue";
+        return playerColor;
+    }
+
     render()
     {
         
@@ -154,12 +174,21 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
         {
             return (
                 <div className="parent-container">
-                    <div className="spacerColumn">           
+                    
+                    <div className="spacerColumn">   
+                    <h4>{this.getJoinCodeLabel()}</h4>  
+                    <ColorButton 
+                        key={`redColorButton`}
+                        label={this.getColorLabel()}
+                        selected={true}
+                        red = { this.playerNumber == 1 }
+                        onClick={() => {}}
+                    />  
                     <PlayerTurn 
-                            key={`turnLabel`}
-                            text={this.playerTurn}
-                        /> 
-                    </div>
+                        key={`turnLabel`}
+                        text={this.playerTurn}
+                    />                     
+                    </div>                   
                     <div >
                         <svg viewBox='0 0 1000 800'>
                             {border({borderNumber:0, boardDimension:this.twoPlayerBoardDimension}) }
