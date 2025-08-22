@@ -14,4 +14,9 @@ Clone down this repository. You will need node and npm installed globally on you
 npm install
 
 ## Running locally
-simply run npm start
+run npm start
+
+## Running a two player server locally 
+clone https://github.com/ebkeefe5/HexagonServer/tree/localServer
+* run the server with node server.js
+* create a game in one tab, join the game in another tab
