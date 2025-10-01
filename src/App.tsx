@@ -1,9 +1,9 @@
 import React, { JSX, useState } from 'react';
-import MenuButton from './components/button/MenuButton';
-import HomePage from './components/HomePage';
-import OnePlayerPage from './components/OnePlayerPage';
-import TwoPlayerPage from './components/TwoPlayerPage';
-import PuzzlePage from './components/PuzzlePage';
+import MenuButton from 'components/button/MenuButton';
+import HomePage from 'pages/HomePage';
+import OnePlayerPage from 'pages/OnePlayerPage';
+import TwoPlayerPage from 'pages/TwoPlayerPage';
+import PuzzlePage from 'pages/PuzzlePage';
 
 type Page = 'home' | 'onePlayer' | 'twoPlayer' | 'puzzle';
 

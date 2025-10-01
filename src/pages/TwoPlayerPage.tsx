@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
 import { io, Socket } from "socket.io-client";
-import HexButton from './button/HexButton';
-import PlayerTurn from './labels/PlayerTurn';
-import ColorButton from './button/ColorButton';
-import  border from './border/borders';
-import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
+import HexButton from 'components/button/HexButton';
+import PlayerTurn from 'components/labels/PlayerTurn';
+import ColorButton from 'components/button/ColorButton';
+import  border from 'components/border/borders';
+import { COLORS, NOT_ALLOWED_COLOR } from 'constants/colors';
 
 type PageState = {
     showGameScreen: boolean;

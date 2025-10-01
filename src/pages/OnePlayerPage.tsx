@@ -1,38 +1,34 @@
 import React from 'react';
 import { useState } from 'react';
-import HexButton from './button/HexButton';
-import ColorButton from './button/ColorButton';
-import RestartButton from './button/RestartButton';
-import PlayerTurn from './labels/PlayerTurn';
-import  border from './border/borders';
-import  checkWinBoardPlayer1  from '.././utility/RedGameOverCheck';
-import  checkWinBoardPlayer2  from '.././utility/BlueGameOverCheck';
-import moveAI from '../utility/AI/AI';
-import { COLORS, NOT_ALLOWED_COLOR } from '../constants/colors';
+import HexButton from 'components/button/HexButton';
+import SelectNumberButton from 'components/button/SelectNumberButton';
+import ColorButton from 'components/button/ColorButton';
+import RestartButton from 'components/button/RestartButton';
+import PlayerTurn from 'components/labels/PlayerTurn';
+import border from 'components/border/borders';
+import checkWinBoardPlayer1  from 'utility/RedGameOverCheck';
+import checkWinBoardPlayer2  from 'utility/BlueGameOverCheck';
+import moveAI from 'utility/AI/AI';
+import { COLORS, NOT_ALLOWED_COLOR } from 'constants/colors';
 
-export default function PuzzlePage() {
-    const create2DArray = (dimension: number): number[][] => {
+export default function TwoPlayerPage() {
+    const create2DArray = (dimension: number) => {
         const array2D: number[][] = [];
         for (let i = 0; i < dimension; i++) {
-            array2D.push(Array(dimension).fill(0));
+            array2D.push(Array(dimension).fill(0)); // Create a new row filled with 0s
         }
         return array2D;
     };
-
     
-    const difficulty = [false, false, true];
+    const [difficulty, selectDifficulty] = useState([true, false, false]);
     const [gameInProgress, setGameInProgress] = useState(false);
-    const [twoPlayerBoardDimension] = useState(5);
+    const [twoPlayerBoardDimension, setTwoPlayerBoardDimension] = useState(5);
+    const [selectedBoardSize, setSeletedBoardSize] = useState([true, false, false, false])
     const [selectedColor, setSelectedColor] = useState([true, false]);
     const CENTER_INDEX = Math.floor(twoPlayerBoardDimension/2);
     const [hexagons, setHexagons] = useState(() => {
         const initialHexagons = create2DArray(twoPlayerBoardDimension);
-        initialHexagons[2][1] = 1;
-        initialHexagons[3][1] = 1;
-        initialHexagons[4][1] = 1;
-        initialHexagons[0][2] = 2;
-        initialHexagons[1][3] = 2;
-        initialHexagons[1][4] = 2;
+        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
         return initialHexagons;
     });
     const [redIsNext, setRedIsNext] = useState(true);
@@ -43,14 +39,9 @@ export default function PuzzlePage() {
         setGameInProgress(false);
         setGameOver(false);
         setRedIsNext(true);
-        setPlayerTurn("Red's Move!");
+        setPlayerTurn("Red's Move!")
         const initialHexagons = create2DArray(twoPlayerBoardDimension);
-        initialHexagons[2][1] = 1;
-        initialHexagons[3][1] = 1;
-        initialHexagons[4][1] = 1;
-        initialHexagons[0][2] = 2;
-        initialHexagons[1][3] = 2;
-        initialHexagons[1][4] = 2;
+        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
         if (selectedColor[1]) //selected blue
         {
           //move red AI, AIPlayerNumber index is different
@@ -62,6 +53,20 @@ export default function PuzzlePage() {
         setHexagons(initialHexagons);          
     }
 
+    const handleSelectBlueClick = () => {
+      if (gameInProgress)
+      {
+        alert("please restart the game to update color");
+        return;
+      }
+      setSelectedColor([false, true]);
+      moveAI({board:hexagons, AIPlayerNumber:1, difficulty: difficulty})
+      setGameInProgress(true);
+      setRedIsNext(false);
+      if (hexagons[CENTER_INDEX][CENTER_INDEX] == -1)
+        hexagons[CENTER_INDEX][CENTER_INDEX] = 0;
+    }
+
     const handleSelectRedClick = () => {
       if (gameInProgress)
       {
@@ -69,6 +74,48 @@ export default function PuzzlePage() {
         return;
       }
       setSelectedColor([true, false]);
+    }
+
+    const handleBoardSizeClick = (boardDimension: number) => {
+        if (gameInProgress)
+        {
+            alert("please restart the game to update board size");
+            return;
+        }
+        setTwoPlayerBoardDimension(boardDimension)
+        setGameOver(false);
+        setRedIsNext(true);
+        setPlayerTurn("Red's Move!")
+        //use boardDimension variable for size since
+        //twoPlayerBoardDimension takes another cycle to actually update
+        const initialHexagons = create2DArray(boardDimension); 
+        const CENTER_INDEX = Math.floor(boardDimension/2);
+        initialHexagons[CENTER_INDEX][CENTER_INDEX] = -1;
+        setHexagons(initialHexagons);
+
+        if (boardDimension == 5)
+            setSeletedBoardSize([true, false, false, false]);
+        else if (boardDimension == 7)
+            setSeletedBoardSize([false, true, false, false]);
+        else if (boardDimension == 9)
+            setSeletedBoardSize([false, false, true, false]);
+        else 
+            setSeletedBoardSize([false, false, false, true]);
+    }
+
+    const handleDifficultyClick = (difficulty: number) => {
+        if (gameInProgress)
+        {
+            alert("please restart the game to update difficulty");
+            return;
+        }
+
+        if (difficulty == 1)
+            selectDifficulty([true, false, false]);
+        else if (difficulty == 2)
+            selectDifficulty([false, true, false]);
+        else 
+            selectDifficulty([false, false, true]);
     }
 
     const handleHexagonClick = (i: number, j: number) => {
@@ -152,6 +199,31 @@ export default function PuzzlePage() {
     return (
         <div className="parent-container">
             <div className="spacerColumn">
+               <h4> Select Board Size</h4>
+               <SelectNumberButton 
+                    key={`5-size`}
+                    label={'5'}
+                    selected={selectedBoardSize[0]}
+                    onClick={() => handleBoardSizeClick(5)}
+                />         
+                <SelectNumberButton 
+                    key={`7-size`}
+                    label={'7'}
+                    selected={selectedBoardSize[1]}
+                    onClick={() => handleBoardSizeClick(7)}
+                />   
+                <SelectNumberButton 
+                    key={`9-size`}
+                    label={'9'}
+                    selected={selectedBoardSize[2]}
+                    onClick={() => handleBoardSizeClick(9)}
+                />      
+                <SelectNumberButton 
+                    key={`11-size`}
+                    label={'11'}
+                    selected={selectedBoardSize[3]}
+                    onClick={() => handleBoardSizeClick(11)}
+                />         
                <h4> Select Color</h4>
                <ColorButton 
                     key={`redColorButton`}
@@ -160,6 +232,32 @@ export default function PuzzlePage() {
                     red = { true }
                     onClick={() => handleSelectRedClick()}
                 />  
+                <ColorButton 
+                    key={`blueColorButton`}
+                    label={'Blue'}
+                    selected={selectedColor[1]}
+                    red = { false }
+                    onClick={() => handleSelectBlueClick()}
+                />  
+               <h4> Select Difficulty</h4>  
+              <SelectNumberButton 
+                    key={`1-difficulty`}
+                    label={'1'}
+                    selected={difficulty[0]}
+                    onClick={() => handleDifficultyClick(1)}
+              />      
+              <SelectNumberButton 
+                  key={`2-difficulty`}
+                  label={'2'}
+                  selected={difficulty[1]}
+                  onClick={() => handleDifficultyClick(2)}
+              />      
+              <SelectNumberButton 
+                  key={`3-difficulty`}
+                  label={'3'}
+                  selected={difficulty[2]}
+                  onClick={() => handleDifficultyClick(3)}
+              />      
                <PlayerTurn 
                     key={`turnLabel`}
                     text={playerTurn}
@@ -170,7 +268,7 @@ export default function PuzzlePage() {
                 />
                
             </div>
-            <div>
+            <div >
                 <svg viewBox='0 0 1000 800'>
                     {border({borderNumber:0, boardDimension:twoPlayerBoardDimension}) }
                     {border({borderNumber:1, boardDimension:twoPlayerBoardDimension}) }
