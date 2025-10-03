@@ -8,12 +8,12 @@ body {
 }
 
 .rotating-heading-simple span {
-  color: #7690ac; 
+  color: #E42217; 
   transition: color 1s infinite alternate; 
 }
 
 .rotating-heading-simple span:nth-child(odd) {
-  color: #E42217; 
+  color: #7690ac; 
 }
 
 h1 {
