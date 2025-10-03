@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/hexGame/static/css/main.5d4bbce7.css",
+    "main.css": "/hexGame/static/css/main.984f7887.css",
     "main.js": "/hexGame/static/js/main.9427de89.js",
     "index.html": "/hexGame/index.html",
-    "main.5d4bbce7.css.map": "/hexGame/static/css/main.5d4bbce7.css.map",
+    "main.984f7887.css.map": "/hexGame/static/css/main.984f7887.css.map",
     "main.9427de89.js.map": "/hexGame/static/js/main.9427de89.js.map"
   },
   "entrypoints": [
-    "static/css/main.5d4bbce7.css",
+    "static/css/main.984f7887.css",
     "static/js/main.9427de89.js"
   ]
 }
