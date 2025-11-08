@@ -31,7 +31,7 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
     private ioClient: Socket | null = null;
     
     componentDidMount(): void {
-        this.ioClient = io('https://hex-server-03f3775459d3.herokuapp.com');
+        this.ioClient = io(process.env.REACT_APP_SERVER);
 
         this.ioClient.on("init", (playerNumber) => this.handleInit(playerNumber));
         this.ioClient.on("update", (gameState) => this.updateGameState(gameState));
