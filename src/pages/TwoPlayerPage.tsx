@@ -206,7 +206,7 @@ export default class TwoPlayerPage extends Component<{}, PageState>{
             return (
                 <div>
                     <div className = "spacerRow"></div>
-                    <button type="submit" onClick={this.handleCreateNewGame} style={{ backgroundColor: 'green', color:'white', padding: '10px 20px', border: 'none', borderRadius: '5px'}}>Create New Game</button>
+                    <button type="submit" onClick={this.handleCreateNewGame} style={{ backgroundColor: '#A9A9A9', color:'black', padding: '10px 20px', border: 'none', borderRadius: '5px'}}>Create New Game</button>
                     <div><h3>OR</h3></div>
                     <div>
                         <input type="text" placeholder="Enter Game Code" onChange={(e) => this.setGameCode(e.target.value)}/>

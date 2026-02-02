@@ -7,21 +7,6 @@ body {
   font-size: 45px;
 }
 
-.rotating-heading-simple span {
-  color: #E42217; 
-  transition: color 1s infinite alternate; 
-}
-
-.rotating-heading-simple span:nth-child(odd) {
-  color: #7690ac; 
-}
-
-h1 {
-  margin-top: 0;
-  font-size: 35px;
-  color: #E42217;
-}
-
 h2 {
   margin-top: 0;
   font-size: 20px;

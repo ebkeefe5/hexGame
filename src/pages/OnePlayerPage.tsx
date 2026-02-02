@@ -22,7 +22,7 @@ export default function TwoPlayerPage() {
     
     const [difficulty, selectDifficulty] = useState([true, false, false]);
     const [gameInProgress, setGameInProgress] = useState(false);
-    const [twoPlayerBoardDimension, setTwoPlayerBoardDimension] = useState(5);
+    const [twoPlayerBoardDimension, setTwoPlayerBoardDimension] = useState(11);
     const [selectedBoardSize, setSeletedBoardSize] = useState([true, false, false, false])
     const [selectedColor, setSelectedColor] = useState([true, false]);
     const CENTER_INDEX = Math.floor(twoPlayerBoardDimension/2);
@@ -199,31 +199,6 @@ export default function TwoPlayerPage() {
     return (
         <div className="parent-container">
             <div className="spacerColumn">
-               <h4> Select Board Size</h4>
-               <SelectNumberButton 
-                    key={`5-size`}
-                    label={'5'}
-                    selected={selectedBoardSize[0]}
-                    onClick={() => handleBoardSizeClick(5)}
-                />         
-                <SelectNumberButton 
-                    key={`7-size`}
-                    label={'7'}
-                    selected={selectedBoardSize[1]}
-                    onClick={() => handleBoardSizeClick(7)}
-                />   
-                <SelectNumberButton 
-                    key={`9-size`}
-                    label={'9'}
-                    selected={selectedBoardSize[2]}
-                    onClick={() => handleBoardSizeClick(9)}
-                />      
-                <SelectNumberButton 
-                    key={`11-size`}
-                    label={'11'}
-                    selected={selectedBoardSize[3]}
-                    onClick={() => handleBoardSizeClick(11)}
-                />         
                <h4> Select Color</h4>
                <ColorButton 
                     key={`redColorButton`}
