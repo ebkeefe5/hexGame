@@ -13,8 +13,8 @@ npm install
 run npm start
 
 ## Running a two player server locally 
-clone https://github.com/ebkeefe5/HexagonServer/tree/localServer
+* clone https://github.com/ebkeefe5/HexagonServer
 * run the server with node server.js
-* configure .env from .env.example, ensure REACT_APP_SERVER points to your server
+* create .env from .env.example, ensure REACT_APP_SERVER points to your server
 * create a game in one tab, join the game in another tab
 
